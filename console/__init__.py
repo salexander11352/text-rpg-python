@@ -31,7 +31,7 @@ def set_text_color(text, background):
     impl._set_text_color(text, background)
 
 def clear_screen():
-    print ()
+    print ('')
     impl._clear_screen()
 
 def clear_color():

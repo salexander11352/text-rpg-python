@@ -317,7 +317,7 @@ def terrain():
     global playerPosy, playerPosx
     
     # Draw map
-    print ()
+    print ('')
     for y in range(len(terMap)):
         sys.stdout.write("\t     ")
         for x in range(len(terMap[y])):
@@ -332,7 +332,7 @@ def terrain():
             else:
                 out = unicode(currentChar)+u" "
             sys.stdout.write(out)
-        print ()
+        print ('')
 
 def moveChar():
     global playerAttr
@@ -384,7 +384,7 @@ def skillAlc():
 
     while True:
         con.clear_screen()
-        print ()
+        print ('')
         print (" you have %s points left." % (points))
         print ("""
         1-spend skill points
@@ -536,7 +536,7 @@ def playGame():
         print ("|           |     %s     |     %s     |   %s    |    %s    |    %s   |     |" % (vitality, strength, luck, weapon, armor))
         print ('+-------------------------------------------------------------------------+')
         terrain()
-        print ()
+        print ('')
         print ('+-------------------------------------------------------------------------+')
         print ("| Legend:   |  Mountain  |  Goblin  |  Chest  |  Pepper Chest  |  Player  |")
         print ("|           |     %s      |     %s    |    %s    |        %s       |     %s    |" % (M, G, C, X, P))
@@ -550,7 +550,7 @@ def playGame():
         if terMap[playerPosy][playerPosx] == D:
             con.clear_screen()
             print ("\n\n    YOU IS WIN!1!!1!")
-            print ()
+            print ('')
             input(" Press enter to return to main menu.")
             running = False
         elif terMap[playerPosy][playerPosx] in [R,G,X]:
