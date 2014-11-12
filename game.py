@@ -65,6 +65,9 @@ terMap = [[M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, 
           [M, M, M, M, M, M, M, e, e, e, e, e, M, M, M, M, e, e, e, e, M, M, M, M, M,], #23
           [M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M,]] #24
 
+# Constants
+DEBUG = False
+
 # Battle Constants
 HP_BASE_MOD  = 50
 HP_MULT      = 4.5
@@ -192,6 +195,10 @@ def hunterAttr():
     playerAttr["stat"]["arm"] = 15
 
 #  Game Functions
+
+def debug(s):
+    if DEBUG:
+        print (s)
 
 def calcHP(vit): # Used internally by battle() only!
     return ( vit * ( HP_BASE_MOD + ( vit * HP_MULT )))
