@@ -11,14 +11,14 @@ import sys
 os.system("color 02")
 
 # Map Entities
-M = "^" # Mountion/Rocks
-G = "&" # Static Goblin
-R = "&" # Random Goblin
-C = "#" # Treasure Chest
-X = "%" # Guarded Chest
-e = " " # Empty Space
+M = "^"       # Mountion/Rocks
+G = "&"       # Static Goblin
+R = "&"       # Random Goblin
+C = "#"       # Treasure Chest
+X = "%"       # Guarded Chest
+e = " "       # Empty Space
 D = u"\u2504" # Door
-P = "P" # Player
+P = "P"       # Player
 
 # Walls 
 V = u"\u2551" # vertical
@@ -27,7 +27,8 @@ L = u"\u255A" # bottom-left
 J = u"\u255D" # bottom-right
 F = u"\u2554" # top-left
 T = u"\u2557" # top-right
-obsticles = [M, V, H, L, J, F, T]          ####_V_MAP_V_####
+obsticles = [M, V, H, L, J, F, T]
+                                           ####_V_MAP_V_####
          # 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
 terMap = [[M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M,], #00
           [M, M, M, M, M, M, M, M, M, M, M, F, H, H, H, H, H, H, H, H, H, H, H, T, M,], #01
@@ -56,12 +57,18 @@ terMap = [[M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, 
           [M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M,]] #24
 
 # Battle Constants
+HP_BASE_MOD  = 50
+HP_MULT      = 4.5
+LUCK_MOD     = 4.0
+MISS_BASE    = 10
+MISS_MOD     = 1
+REROLL_MOD   = .85
+WPN_STAT_MOD = 800.0
 
 # Player information
 playerAttr = {}
 
 running = True
-
 
 enemy = {}
 enemy["vit"] = 10
@@ -168,15 +175,6 @@ def hunterAttr():
     playerAttr["stat"]["arm"] = 15
     charCreation()
 
-# Battle Constants
-HP_BASE_MOD  = 50
-HP_MULT      = 4.5
-LUCK_MOD     = 4.0
-MISS_BASE    = 10
-MISS_MOD     = 1
-REROLL_MOD   = .85
-WPN_STAT_MOD = 800.0
-
 #  Game Functions
 
 def calcHP(vit): # Used internally by battle() only!
@@ -281,7 +279,7 @@ def terrain():
     global playerPosy, playerPosx
 
     # Place Character on map
-   # terMap[playerPosy][playerPosx] = P
+    # terMap[playerPosy][playerPosx] = P
     
     # Draw map
     print
@@ -486,13 +484,10 @@ def charSelect():
     playerAttr["stat"]["HP"] = calcHP(playerAttr["stat"]["vit"])
     charCreation()
 
-    #nameTofunk[charClass]()
-    #if 
-
 def clear():
     if platform.system() == 'Windows':
         clearCmd = 'cls'
-    else: # linux
+    else: # *nix
         clearCmd = 'clear'
     os.system(clearCmd)
 
