@@ -4,13 +4,7 @@ import random
 import sys
 import time
 
-#os.system("color 2")green
-#os.system("color 4")red
-#os.system("color 6-8")white-grey
-#os.system("color 16")
-#os.system("color 17")
 os.system("color 02")
-
 
 PYTHON_3 = sys.version_info.major == 3
 
@@ -262,10 +256,6 @@ def battle(enemy):
         else:
             print ("\n You try to block, but the enemy sidesteps with a\n vicious blow to your side.")
             playerHP = attack(enemy, player, playerHP) * 0.8
-    #elif action == "i":
-    #    pass
-    #elif action == "r":
-    #    pass
     
     dead = False
     while not dead:
@@ -287,7 +277,6 @@ def battle(enemy):
             print ("He died. Oops.")
             input("Press Enter to Continue")
             time.sleep(1)
-        #input("Press Enter to Continue")
         
         print ("\n\n")
         #print ("[DEBUG] Goblin vs. Player:")
@@ -300,7 +289,6 @@ def battle(enemy):
             running = False
             input("Press Enter to Return to Main Menu...")
         time.sleep(1)
-        #input("Press Enter to Continue")
 
 def spawnPlayer():
     global playerAttr
@@ -325,9 +313,6 @@ def spawnPlayer():
 
 def terrain():
     global playerPosy, playerPosx
-
-    # Place Character on map
-    # terMap[playerPosy][playerPosx] = P
     
     # Draw map
     print ()
@@ -346,7 +331,6 @@ def terrain():
                 out = unicode(currentChar)+u" "
             sys.stdout.write(out)
         print ()
-    #print ("\n")
 
 def moveChar():
     global playerAttr
@@ -595,7 +579,6 @@ def menu():
         elif x.lower() == "exit":
             print ("\nExiting\n")
             os.system("color 56")
-            #exit()
             break
         else:
             print ("\n\n\aERROR: NOT A VALID INPUT\n")
