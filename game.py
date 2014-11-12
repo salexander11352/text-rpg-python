@@ -447,11 +447,11 @@ def charSelect():
     valid = False
     while not valid:
         clear()
-        print "+-----------------------------------------------------------------+"
-        print "|  Player HP :                                                    |" 
-        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |  flee  |         |"
-        print "|\t    |      atk     |      def     |    i   |     r    |          |" 
-        print '+------------------------------------------------------------------+'
+        print "+----------------------------------------------------------------+"
+        print "|  Player HP :                                                   |" 
+        print "|  Stats:  |  Attack  |  Defend  |  Use Item  |  flee   |        |"
+        print "|          |   atk    |   def    |     i      |    r    |        |" 
+        print '+----------------------------------------------------------------+'
         print " Please input the name of the class you wish to be."
         print " 1. Warrior"
         print " 2. Knight"
@@ -502,16 +502,16 @@ def playGame():
         print "+-------------------------------------------------------------------------+"
         print "|  Player HP : %.1f                                                     |" % (playerHP)
         print "|  Stats:   |  Vitality  |  Strength  |  Luck  |  Weapon  |  Armor  |     |"
-        print "|\t    |      %s     |      %s     |    %s   |     %s    |    %s    |     |" % (M, G, C, X, P)
+        print "|           |     %s      |     %s      |    %s   |     %s    |    %s    |     |" % (M, G, C, X, P)
         print '+-------------------------------------------------------------------------+'
         terrain()
         print
         print '+-------------------------------------------------------------------------+'
-        print "  Legend:   |  Mountain  |  Goblin  |  Chest  |  Pepper Chest  |  Player  |"
-        print "\t    |     %s      |     %s    |    %s    |        %s       |     %s    |" % (M, G, C, X, P)
+        print "| Legend:   |  Mountain  |  Goblin  |  Chest  |  Pepper Chest  |  Player  |"
+        print "|           |     %s      |     %s    |    %s    |        %s       |     %s    |" % (M, G, C, X, P)
         print '+-------------------------------------------------------------------------+'
-        print "Controls:   |     North     |     South     |     East     |     West     |"
-        print "\t    |       W       |       A       |       S      |      D       |"
+        print "| Controls: |     North     |     South     |     East     |     West     |"
+        print "|           |       W       |       A       |       S      |      D       |"
         print '+-------------------------------------------------------------------------+'
         moveChar()
         playerPosy = playerAttr['posy']
