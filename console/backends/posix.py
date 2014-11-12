@@ -6,29 +6,6 @@ import termios
 import StringIO
 import tty
 import subprocess as sub
-# _BLUE = 0x0001
-# _GREEN = 0x0002
-# _RED = 0x0004
-# _INTENSITY = 0x0008
-
-# darkblue    = _BLUE
-# darkgreen   = _GREEN
-# darkcyan    = _GREEN | _BLUE
-# darkred     = _RED
-# darkmagenta = _RED | _BLUE
-# darkyellow  = _RED | _GREEN
-# grey        = _RED | _GREEN | _BLUE
-
-# black       = 0
-# darkgrey    = _INTENSITY
-
-# blue        = _INTENSITY | _BLUE
-# green       = _INTENSITY | _GREEN
-# cyan        = _INTENSITY | _GREEN | _BLUE
-# red         = _INTENSITY | _RED
-# magenta     = _INTENSITY | _RED | _BLUE
-# yellow      = _INTENSITY | _RED | _GREEN
-# white       = _INTENSITY | _RED | _GREEN | _BLUE
 
 _BLACK   = '0'
 _RED     = '1'
