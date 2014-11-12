@@ -4,7 +4,9 @@ import random
 import sys
 import time
 
-os.system("color 02")
+import console as con
+
+con.set_text_color(con.darkgreen, con.black)
 
 PYTHON_3 = sys.version_info.major == 3
 
@@ -233,7 +235,7 @@ def battle(enemy):
     enemyHP = calcHP(enemy["vit"])
     playerHP = player["HP"]
 
-    clear()
+    con.clear_screen()
 
     print ("+-------------------------------------------------------------------------+")
     print ("|  Actions:   |  Attack  |  Defend  | *Use Item  | *flee  | * Not avail.  |" )
@@ -271,7 +273,7 @@ def battle(enemy):
             dead = True
             enemyHP = 0
             terMap[playerAttr["posy"]][playerAttr["posx"]] = e
-            #clear()
+            #con.clear_screen()
             playerAttr["stat"]["HP"] = playerHP
             print ("You kick the goblin in the face.")
             print ("He died. Oops.")
@@ -284,7 +286,7 @@ def battle(enemy):
         if playerHP <= 0:
             dead = True
             playerHP = 0
-            clear()
+            con.clear_screen()
             print ("\nOh dear! You have died!\n")
             running = False
             input("Press Enter to Return to Main Menu...")
@@ -370,7 +372,7 @@ def skillAlc():
     vitality = playerAttr["stat"]["vit"]
     strength = playerAttr["stat"]["str"]
     luck     = playerAttr["stat"]["lck"]
-    clear()
+    con.clear_screen()
     print ("\n\n        Character Creation")
     print ("\n\n    Welcome to the character creator.")
     print ("    Here you can edit your character by ")
@@ -381,7 +383,7 @@ def skillAlc():
     attributes=("vitality", "strength", "luck")
 
     while True:
-        clear()
+        con.clear_screen()
         print ()
         print (" you have %s points left." % (points))
         print ("""
@@ -391,7 +393,7 @@ def skillAlc():
         4-done
         """)
         choice = input("    choice: ")
-        clear()
+        con.clear_screen()
         if choice == "1":
             attribute = input(" which attribute? \n 1. strength\n 2. vitality\n 3. luck\n >>> ")
             if attribute in attributes:
@@ -401,26 +403,26 @@ def skillAlc():
                         strength += add
                         print (" %s now has %s points in strength." % (name, strength))
                         input(" Press Enter to go back to menu.")
-                        clear()
+                        con.clear_screen()
                     elif attribute == "vitality" or attribute == "2":
                         vitality += add
                         print (" %s now has %s points in vitality." % (name, vitality))
                         input(" Press Enter to go back to menu.")
-                        clear()
+                        con.clear_screen()
                     elif attribute == "luck" or attribute == "3":
                         luck += add
                         print (" %s now has %s points in luck." % (name, luck))
                         input(" Press Enter to go back to menu.")
-                        clear()
+                        con.clear_screen()
                     points -= add
                 else:
                     print (" invalid number of points.")
                     input(" Press Enter to go back to menu.")
-                    clear()
+                    con.clear_screen()
             else:
                 print (" invalid attribute.")
                 input(" Press Enter to go back to menu.")
-                clear()
+                con.clear_screen()
         elif choice == "2":
             attribute = input("\n which attribute? strength, vitality, or luck? ")
             if attribute in attributes:
@@ -430,48 +432,48 @@ def skillAlc():
                     print (" %s now has %s points in strength." % (name, strength))
                     points += take
                     input(" Press Enter to go back to menu.")
-                    clear()
+                    con.clear_screen()
                 elif attribute == "2" and take <= vitality and take > 0:
                     vitality -= take
                     print (" %s now has %s points in vitality." % (name, vitality))
                     points += take
                     input(" Press Enter to go back to menu.")
-                    clear()
+                    con.clear_screen()
                 elif attribute == "3" and take <= dexterity and take > 0:
                     luck -= take
                     print (" %s now has %s points in luck." % (name, luck))
                     points += take
                     input(" Press Enter to go back to menu.")
-                    clear()
+                    con.clear_screen()
                 else:
                     print (" invalid number of points.")
                     input(" Press Enter to go back to menu.")
-                    clear()
+                    con.clear_screen()
             else:
                 print (" invalid attribute.")
                 input(" Press Enter to go back to menu.")
-                clear()
+                con.clear_screen()
         elif choice == "3":
             print ("  strength - %s" % strength)
             print ("  vitality - %s" % vitality)
             print ("  luck - %s" % luck)
             input(" Press Enter to go back to menu.")
-            clear()
+            con.clear_screen()
         elif choice == "4":
             if points == 0:
                 print ("\n congrats! you're done designing %s." % (name))
                 print (" %s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck))
                 input(" Press Enter to start your adventure.")
-                clear()
+                con.clear_screen()
                 break
             else:
                 print (" use all your points!")
                 input(" Press Enter to go back to menu.")
-                clear()
+                con.clear_screen()
         else:
             print (" invalid choice.")
             input(" Press Enter to go back to menu.")
-            clear()
+            con.clear_screen()
 
     playGame()
 
@@ -482,7 +484,7 @@ def skillAlc():
 def charSelect():
     valid = False
     while not valid:
-        clear()
+        con.clear_screen()
         print (" Please input the name of the class you wish to be.")
         print (" 1. Warrior")
         print (" 2. Knight")
@@ -515,13 +517,6 @@ def charSelect():
     playerAttr["stat"]["HP"] = calcHP(playerAttr["stat"]["vit"])
     skillAlc()
 
-def clear():
-    if platform.system() == 'Windows':
-        clearCmd = 'cls'
-    else: # *nix
-        clearCmd = 'clear'
-    os.system(clearCmd)
-
 def playGame():
     global playerAttr, running
 
@@ -534,7 +529,7 @@ def playGame():
         luck     = playerAttr["stat"]["lck"]
         weapon   = playerAttr["stat"]["wpn"]
         armor    = playerAttr["stat"]["arm"]
-        clear()
+        con.clear_screen()
         print ("+-------------------------------------------------------------------------+")
         print ("|  Player HP : {:<8.1f}                                                   |".format(playerHP))
         print ("|  Stats:   |  Vitality  |  Strength  |  Luck  |  Weapon  |  Armor  |     |")
@@ -553,7 +548,7 @@ def playGame():
         playerPosy = playerAttr['posy']
         playerPosx = playerAttr['posx']
         if terMap[playerPosy][playerPosx] == D:
-            clear()
+            con.clear_screen()
             print ("\n\n    YOU IS WIN!1!!1!")
             print ()
             input(" Press enter to return to main menu.")
@@ -564,21 +559,21 @@ def playGame():
 def menu():
     global running
     while True:
-
-        clear()
+        con.clear_screen()
         print ("\n\n\t\tAdventures of Grogg?")
         print ("\n\tWelcome to the greatest texted based ")
         print ("\tadventure you have ever played.\n\n")
         print (" Start\n Exit\n")
         x = input('\n>>> ')
-        clear()
+        con.clear_screen()
         if x.lower() == "start":
             running = True
             charSelect()
             playGame()
         elif x.lower() == "exit":
             print ("\nExiting\n")
-            os.system("color 56")
+            con.clear_color()
+            con.clear_screen()
             break
         else:
             print ("\n\n\aERROR: NOT A VALID INPUT\n")
