@@ -3,9 +3,7 @@ import sys
 import struct
 import fcntl
 import termios
-import StringIO
 import tty
-import subprocess as sub
 
 _BLACK   = '0'
 _RED     = '1'
