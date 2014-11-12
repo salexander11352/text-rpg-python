@@ -444,7 +444,7 @@ def skillAlc():
         elif choice=="4":
             if points==0:
                 print "\n congrats! you're done designing "+name+'.'
-                print "%s has %s strength, %s vitality, and %s dexterity." % (name, strength, vitality, luck)
+                print "%s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck)
                 raw_input("Press Enter to start your adventure.")
                 clear()
                 break
