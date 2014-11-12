@@ -56,13 +56,20 @@ terMap = [[M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, 
           [M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M, M,]] #24
 
 # Battle Constants
+HP_BASE_MOD  = 50
+HP_MULT      = 4.5
+LUCK_MOD     = 4.0
+MISS_BASE    = 10
+MISS_MOD     = 1
+REROLL_MOD   = .85
+WPN_STAT_MOD = 800.0
 
 # Player information
 playerAttr = {}
 
 running = True
 
-
+# Enemy Attr
 enemy = {}
 enemy["vit"] = 10
 enemy["str"] = 10
@@ -87,6 +94,7 @@ def warriorAttr():
     playerAttr["stat"]["lck"] = 7
     playerAttr["stat"]["wpn"] = 40
     playerAttr["stat"]["arm"] = 35
+
 def knightAttr():
     playerAttr["role"] = "Knight"
     playerAttr["posx"] = 0
@@ -102,7 +110,7 @@ def knightAttr():
     playerAttr["stat"]["lck"] = 10
     playerAttr["stat"]["wpn"] = 35
     playerAttr["stat"]["arm"] = 40
-    charCreation()
+
 def royaltyAttr():
     playerAttr["role"] = "Royalty"
     playerAttr["posx"] = 0
@@ -118,7 +126,7 @@ def royaltyAttr():
     playerAttr["stat"]["lck"] = 7
     playerAttr["stat"]["wpn"] = 30
     playerAttr["stat"]["arm"] = 15
-    charCreation()
+
 def mageAttr():
     playerAttr["role"] = "Mage"
     playerAttr["posx"] = 0
@@ -134,7 +142,7 @@ def mageAttr():
     playerAttr["stat"]["lck"] = 11
     playerAttr["stat"]["wpn"] = 32
     playerAttr["stat"]["arm"] = 20
-    charCreation()
+
 def thiefAttr():
     playerAttr["role"] = "thief"
     playerAttr["posx"] = 0
@@ -150,7 +158,7 @@ def thiefAttr():
     playerAttr["stat"]["lck"] = 15
     playerAttr["stat"]["wpn"] = 20
     playerAttr["stat"]["arm"] = 25
-    charCreation()
+
 def hunterAttr():
     playerAttr["role"] = "hunter"
     playerAttr["posx"] = 0
@@ -166,16 +174,6 @@ def hunterAttr():
     playerAttr["stat"]["lck"] = 12
     playerAttr["stat"]["wpn"] = 45
     playerAttr["stat"]["arm"] = 15
-    charCreation()
-
-# Battle Constants
-HP_BASE_MOD  = 50
-HP_MULT      = 4.5
-LUCK_MOD     = 4.0
-MISS_BASE    = 10
-MISS_MOD     = 1
-REROLL_MOD   = .85
-WPN_STAT_MOD = 800.0
 
 #  Game Functions
 
@@ -198,25 +196,27 @@ def attack(atk, dfn, dfnHP): # Used internally by battle() only!
             goodValue = True
         elif damage > rerollWindow:
             goodValue = True
-    
-    if damage != 0:
-        damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
-    print "[DEBUG] Base damage is %.3f" % (damage)
-    
-    # Weapon mod
-    if damage != 0:
-        damage += damage * (atk["wpn"] / WPN_STAT_MOD)
-    print "[DEBUG] Damage after wpn is %.3f" % (damage)
-    
-    #Armor mod
-    if damage != 0:
-        damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
-    print "[DEBUG] Final damage output is %.3f" % (damage)
-    
-    return dfnHP - damage
 
-    print "[DEBUG] Player HP: %.2f" % (playerHP)
-    print "[DEBUG] Enemy HP:  %.2f" % (enemyHP)
+
+    
+    # if damage != 0:
+    #     damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
+    # print "[DEBUG] Base damage is %.3f" % (damage)
+    
+    # # Weapon mod
+    # if damage != 0:
+    #     damage += damage * (atk["wpn"] / WPN_STAT_MOD)
+    # print "[DEBUG] Damage after wpn is %.3f" % (damage)
+    
+    # #Armor mod
+    # if damage != 0:
+    #     damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
+    # print "[DEBUG] Final damage output is %.3f" % (damage)
+    
+    # return dfnHP - damage
+
+    # print "[DEBUG] Player HP: %.2f" % (playerHP)
+    # print "[DEBUG] Enemy HP:  %.2f" % (enemyHP)
 
 def battle(enemy):
     global running
@@ -228,10 +228,24 @@ def battle(enemy):
     checkLuck = True
     while not dead:
         print playerHP, enemyHP
+        print "+-----------------------------------------------------------------+"
+        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |  flee  |         |" 
+        print "|           |          |          |            |        |         |"
+        print "|\t    |     atk    |     def    |    i   |     r    |         |" 
+        print '+------------------------------------------------------------------+'
+
+        action = raw_input(" Choose action: ")
+        if action == "atk":
+            
+        elif action == "def":
+
+        elif action == "i":
+
+        elif action == "r":
 
         if player["lck"] >= enemy["lck"] or not checkLuck:
             print "\n\n"
-            print"[DEBUG] Player vs. Enemy:"
+            #print"[DEBUG] Player vs. Enemy:"
             enemyHP = attack(player, enemy, enemyHP)
             if enemyHP <= 0:
                 global terMap
@@ -245,7 +259,7 @@ def battle(enemy):
         else:
             checkLuck = False
             print "\n\n"
-            print "[DEBUG] Goblin vs. Player:"
+            #print "[DEBUG] Goblin vs. Player:"
             playerHP = attack(enemy, player, playerHP)
             if playerHP <= 0:
                 dead = True
@@ -336,7 +350,7 @@ def moveChar():
     playerAttr['posx'] = playerPosx
     playerAttr['posy'] = playerPosy
 
-def charCreation():
+def skillAlc():
     vitality = playerAttr["stat"]["vit"]
     strength = playerAttr["stat"]["str"]
     luck     = playerAttr["stat"]["lck"]
@@ -359,10 +373,10 @@ def charCreation():
         print "you have", points, "points left."
         print \
         """
-        1-add points
-        2-take points
-        3-see points per attribute
-        4-exit
+        1-spend skill points
+        2-remove skill points
+        3-view skill points
+        4-done
         """
         choice=raw_input("choice: ")
         if choice=="1":
@@ -388,10 +402,13 @@ def charCreation():
                     points-=add
                 else:
                     print "invalid number of points."
+                    raw_input("Press Enter to go back to menu.")
                     clear()
             else:
                 print "invalid attribute."
+                raw_input("Press Enter to go back to menu.")
                 clear()
+
         elif choice=="2":
             attribute=raw_input("\nwhich attribute? strength, vitality, or luck? ")
             if attribute in attributes:
@@ -420,6 +437,7 @@ def charCreation():
                     raw_input("Press Enter to go back to menu.")
             else:
                 print "invalid attribute."
+                raw_input("Press Enter to go back to menu.")
                 clear()
         elif choice=="3":
             print "strength - %s" % strength
@@ -429,13 +447,16 @@ def charCreation():
             clear()
         elif choice=="4":
             if points==0:
+                raw_input("Press Enter to go back to menu.")
                 clear()
                 break
             else:
                 print "use all your points!"
+                raw_input("Press Enter to go back to menu.")
                 clear()
         else:
             print "invalid choice."
+            raw_input("Press Enter to go back to menu.")
             clear()
     print "\ncongrats! you're done designing "+name+'.'
     print name, "has %s strength, %s vitality, and %s dexterity." % (strength, vitality, luck)
@@ -449,11 +470,6 @@ def charSelect():
     valid = False
     while not valid:
         clear()
-        print "+-----------------------------------------------------------------+"
-        print "|  Player HP :                                                    |" 
-        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |  flee  |         |"
-        print "|\t    |      atk     |      def     |    i   |     r    |          |" 
-        print '+------------------------------------------------------------------+'
         print " Please input the name of the class you wish to be."
         print " 1. Warrior"
         print " 2. Knight"
@@ -484,7 +500,7 @@ def charSelect():
             valid = True
 
     playerAttr["stat"]["HP"] = calcHP(playerAttr["stat"]["vit"])
-    charCreation()
+    skillAlc()
 
     #nameTofunk[charClass]()
     #if 
