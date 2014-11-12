@@ -364,22 +364,19 @@ def skillAlc():
     strength = playerAttr["stat"]["str"]
     luck     = playerAttr["stat"]["lck"]
     clear()
-    print "\n\n\t\tCharacter Creation"
-    print "\n\n\tWelcome to the character creator."
-    print "\tHere you can edit your character by "
-    print "\tadding any points that you have to "
-    print "\tvarius stats.\n"
-
-    # Character Creation
-    print " assign points to vitality, strength, and luck."
-    name=raw_input("\tWhat's your character's name? ")
+    print "\n\n        Character Creation"
+    print "\n\n    Welcome to the character creator."
+    print "    Here you can edit your character by "
+    print "    adding any points that you have to "
+    print "    varius stats.\n"
+    name=raw_input("    What's your character's name? ")
     points=10
     attributes=("vitality", "strength", "luck")
 
     while True:
         clear()
         print
-        print "you have", points, "points left."
+        print "you have %s points left." % (points)
         print \
         """
         1-spend skill points
@@ -387,76 +384,77 @@ def skillAlc():
         3-view skill points
         4-done
         """
-        choice=raw_input("choice: ")
+        choice=raw_input("    choice: ")
         if choice=="1":
-            attribute=raw_input("which attribute? strength, vitality, or luck? ")
+            attribute=raw_input(" which attribute? strength, vitality, or luck? ")
             if attribute in attributes:
-                add=int(raw_input("how many points? "))
+                add=int(raw_input(" how many points? "))
                 if add<=points and add>0:
                     if attribute=="strength":
                         strength+=add
-                        print "%s now has %s points in strength." % (name, strength)
+                        print " %s now has %s points in strength." % (name, strength)
+                        raw_input(" Press Enter to go back to menu.")
                         clear()
-                        raw_input("Press Enter to go back to menu.")
                     elif attribute=="vitality":
                         vitality+=add
-                        print  "%s now has %s points in vitality." % (name, vitality)
+                        print " %s now has %s points in vitality." % (name, vitality)
+                        raw_input(" Press Enter to go back to menu.")
                         clear()
-                        raw_input("Press Enter to go back to menu.")
                     elif attribute=="luck":
                         luck+=add
-                        print  "%s now has %s points in luck." % (name, luck)
+                        print " %s now has %s points in luck." % (name, luck)
+                        raw_input(" Press Enter to go back to menu.")
                         clear()
-                        raw_input("Press Enter to go back to menu.")
                     points-=add
                 else:
-                    print "invalid number of points."
-                    raw_input("Press Enter to go back to menu.")
+                    print " invalid number of points."
+                    raw_input(" Press Enter to go back to menu.")
                     clear()
             else:
-                print "invalid attribute."
-                raw_input("Press Enter to go back to menu.")
+                print " invalid attribute."
+                raw_input(" Press Enter to go back to menu.")
                 clear()
-
         elif choice=="2":
-            attribute=raw_input("\nwhich attribute? strength, vitality, or luck? ")
+            attribute=raw_input("\n which attribute? strength, vitality, or luck? ")
             if attribute in attributes:
-                take=int(raw_input("\nhow many points? "))
+                take=int(raw_input("\n how many points? "))
                 if attribute=="strength" and take<=strength and take>0:
                     strength-=take
-                    print name, "now has", strength, "points in strength."
+                    print " %s now has %s points in strength." % (name, strength)
                     points+=take
+                    raw_input(" Press Enter to go back to menu.")
                     clear()
-                    raw_input("Press Enter to go back to menu.")
                 elif attribute=="vitality" and take<=health and take>0:
                     vitality-=take
-                    print name, "now has ", vitality, " points in vitality."
+                    print " %s now has %s points in vitality." % (name, vitality)
                     points+=take
+                    raw_input(" Press Enter to go back to menu.")
                     clear()
-                    raw_input("Press Enter to go back to menu.")
                 elif attribute=="luck" and take<=dexterity and take>0:
                     luck-=take
-                    print name, "now has", luck, "points in luck."
+                    print " %s now has %s points in luck." % (name, luck)
                     points+=take
+                    raw_input(" Press Enter to go back to menu.")
                     clear()
-                    raw_input("Press Enter to go back to menu.")
                 else:
-                    print "invalid number of points."
+                    print " invalid number of points."
+                    raw_input(" Press Enter to go back to menu.")
                     clear()
-                    raw_input("Press Enter to go back to menu.")
             else:
-                print "invalid attribute."
-                raw_input("Press Enter to go back to menu.")
+                print " invalid attribute."
+                raw_input(" Press Enter to go back to menu.")
                 clear()
         elif choice=="3":
-            print "strength - %s" % strength
-            print "vitality - %s" % vitality
-            print "luck - %s" % luck
-            raw_input("Press Enter to go back to menu.")
+            print "  strength - %s" % strength
+            print "  vitality - %s" % vitality
+            print "  luck - %s" % luck
+            raw_input(" Press Enter to go back to menu.")
             clear()
         elif choice=="4":
             if points==0:
-                raw_input("Press Enter to go back to menu.")
+                print "\n congrats! you're done designing "+name+'.'
+                print "%s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck)
+                raw_input("Press Enter to start your adventure.")
                 clear()
                 break
             else:
@@ -467,8 +465,7 @@ def skillAlc():
             print "invalid choice."
             raw_input("Press Enter to go back to menu.")
             clear()
-    print "\ncongrats! you're done designing "+name+'.'
-    print name, "has %s strength, %s vitality, and %s dexterity." % (strength, vitality, luck)
+
     playGame()
 
     playerAttr["stat"]["vit"] = vitality
