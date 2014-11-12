@@ -2,6 +2,7 @@ import os
 import platform
 import random
 import sys
+import time
 
 #os.system("color 2")green
 #os.system("color 4")red
@@ -85,6 +86,7 @@ def warriorAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 14
     #playerAttr["stat"]["int"] = 9
     #playerAttr["stat"]["end"] = 12
@@ -101,6 +103,7 @@ def knightAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 10
     #playerAttr["stat"]["int"] = 11
     #playerAttr["stat"]["end"] = 11
@@ -117,6 +120,7 @@ def royaltyAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 8
     #playerAttr["stat"]["int"] = 12
     #playerAttr["stat"]["end"] = 8
@@ -133,6 +137,7 @@ def mageAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 9
     #playerAttr["stat"]["int"] = 15
     #playerAttr["stat"]["end"] = 10
@@ -149,6 +154,7 @@ def thiefAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 10
     #playerAttr["stat"]["int"] = 13
     #playerAttr["stat"]["end"] = 10
@@ -165,6 +171,7 @@ def hunterAttr():
     playerAttr["posx"] = 0
     playerAttr["posy"] = 0
     playerAttr["stat"] = {}
+    playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 12
     #playerAttr["stat"]["int"] = 10
     #playerAttr["stat"]["end"] = 13
@@ -220,6 +227,8 @@ def battle(enemy):
     enemyHP = calcHP(enemy["vit"])
     playerHP = player["HP"]
 
+    clear()
+
     print "+-------------------------------------------------------------------------+"
     print "|  Actions:   |  Attack  |  Defend  | *Use Item  | *flee  | * Not avail.  |" 
     print "|             |          |          |            |        | in current    |"
@@ -249,8 +258,8 @@ def battle(enemy):
     dead = False
     while not dead:
     
-        print "[DEBUG] Player HP: %.2f" % (playerHP)
-        print "[DEBUG] Enemy HP:  %.2f" % (enemyHP)
+        print " Player HP: %.2f" % (playerHP)
+        print " Enemy HP:  %.2f" % (enemyHP)
 
         print "\n\n"
         #print"[DEBUG] Player vs. Enemy:"
@@ -265,7 +274,8 @@ def battle(enemy):
             print "You kick the goblin in the face."
             print "He died. Oops."
             raw_input("Press Enter to Continue")
-        raw_input("Press Enter to Continue")
+            time.sleep(1)
+        #raw_input("Press Enter to Continue")
         
         print "\n\n"
         #print "[DEBUG] Goblin vs. Player:"
@@ -277,7 +287,8 @@ def battle(enemy):
             print "\nOh dear! You have died!\n"
             running = False
             raw_input("Press Enter to Return to Main Menu...")
-        raw_input("Press Enter to Continue")
+        time.sleep(1)
+        #raw_input("Press Enter to Continue")
 
 def spawnPlayer():
     global playerAttr
@@ -376,7 +387,7 @@ def skillAlc():
     while True:
         clear()
         print
-        print "you have %s points left." % (points)
+        print " you have %s points left." % (points)
         print \
         """
         1-spend skill points
@@ -384,28 +395,29 @@ def skillAlc():
         3-view skill points
         4-done
         """
-        choice=raw_input("    choice: ")
-        if choice=="1":
-            attribute=raw_input(" which attribute? strength, vitality, or luck? ")
+        choice = raw_input("    choice: ")
+        clear()
+        if choice == "1":
+            attribute = raw_input(" which attribute? \n 1. strength\n 2. vitality\n 3. luck\n >>> ")
             if attribute in attributes:
-                add=int(raw_input(" how many points? "))
-                if add<=points and add>0:
-                    if attribute=="strength":
-                        strength+=add
+                add = int(raw_input(" how many points? "))
+                if add <= points and add > 0:
+                    if attribute == "strength" or attribute == "1":
+                        strength += add
                         print " %s now has %s points in strength." % (name, strength)
                         raw_input(" Press Enter to go back to menu.")
                         clear()
-                    elif attribute=="vitality":
-                        vitality+=add
+                    elif attribute == "vitality" or attribute == "2":
+                        vitality += add
                         print " %s now has %s points in vitality." % (name, vitality)
                         raw_input(" Press Enter to go back to menu.")
                         clear()
-                    elif attribute=="luck":
-                        luck+=add
+                    elif attribute == "luck" or attribute == "3":
+                        luck += add
                         print " %s now has %s points in luck." % (name, luck)
                         raw_input(" Press Enter to go back to menu.")
                         clear()
-                    points-=add
+                    points -= add
                 else:
                     print " invalid number of points."
                     raw_input(" Press Enter to go back to menu.")
@@ -414,26 +426,26 @@ def skillAlc():
                 print " invalid attribute."
                 raw_input(" Press Enter to go back to menu.")
                 clear()
-        elif choice=="2":
-            attribute=raw_input("\n which attribute? strength, vitality, or luck? ")
+        elif choice == "2":
+            attribute = raw_input("\n which attribute? strength, vitality, or luck? ")
             if attribute in attributes:
-                take=int(raw_input("\n how many points? "))
-                if attribute=="strength" and take<=strength and take>0:
-                    strength-=take
+                take = int(raw_input("\n how many points? "))
+                if attribute == "1" and take <= strength and take > 0:
+                    strength -= take
                     print " %s now has %s points in strength." % (name, strength)
-                    points+=take
+                    points += take
                     raw_input(" Press Enter to go back to menu.")
                     clear()
-                elif attribute=="vitality" and take<=health and take>0:
-                    vitality-=take
+                elif attribute == "2" and take <= vitality and take > 0:
+                    vitality -= take
                     print " %s now has %s points in vitality." % (name, vitality)
-                    points+=take
+                    points += take
                     raw_input(" Press Enter to go back to menu.")
                     clear()
-                elif attribute=="luck" and take<=dexterity and take>0:
-                    luck-=take
+                elif attribute == "3" and take <= dexterity and take > 0:
+                    luck -= take
                     print " %s now has %s points in luck." % (name, luck)
-                    points+=take
+                    points += take
                     raw_input(" Press Enter to go back to menu.")
                     clear()
                 else:
@@ -444,26 +456,26 @@ def skillAlc():
                 print " invalid attribute."
                 raw_input(" Press Enter to go back to menu.")
                 clear()
-        elif choice=="3":
+        elif choice == "3":
             print "  strength - %s" % strength
             print "  vitality - %s" % vitality
             print "  luck - %s" % luck
             raw_input(" Press Enter to go back to menu.")
             clear()
-        elif choice=="4":
-            if points==0:
-                print "\n congrats! you're done designing "+name+'.'
-                print "%s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck)
-                raw_input("Press Enter to start your adventure.")
+        elif choice == "4":
+            if points == 0:
+                print "\n congrats! you're done designing %s." % (name)
+                print " %s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck)
+                raw_input(" Press Enter to start your adventure.")
                 clear()
                 break
             else:
-                print "use all your points!"
-                raw_input("Press Enter to go back to menu.")
+                print " use all your points!"
+                raw_input(" Press Enter to go back to menu.")
                 clear()
         else:
-            print "invalid choice."
-            raw_input("Press Enter to go back to menu.")
+            print " invalid choice."
+            raw_input(" Press Enter to go back to menu.")
             clear()
 
     playGame()
@@ -531,7 +543,7 @@ def playGame():
         print "+-------------------------------------------------------------------------+"
         print "|  Player HP : {:<8.1f}                                                   |".format(playerHP)
         print "|  Stats:   |  Vitality  |  Strength  |  Luck  |  Weapon  |  Armor  |     |"
-        print "|           |     %s      |     %s      |   %s    |    %s     |    %s    |     |" % (vitality, strength, luck, weapon, armor)
+        print "|           |     %s     |     %s     |   %s    |    %s    |    %s   |     |" % (vitality, strength, luck, weapon, armor)
         print '+-------------------------------------------------------------------------+'
         terrain()
         print
@@ -547,9 +559,9 @@ def playGame():
         playerPosx = playerAttr['posx']
         if terMap[playerPosy][playerPosx] == D:
             clear()
-            print "\n\n\tYOU IS WIN!1!!1!"
+            print "\n\n    YOU IS WIN!1!!1!"
             print
-            raw_input("Press enter to continue")
+            raw_input(" Press enter to return to main menu.")
             running = False
         elif terMap[playerPosy][playerPosx] in [R,G,X]:
             battle(enemy)
