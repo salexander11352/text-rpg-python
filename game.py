@@ -522,11 +522,16 @@ def playGame():
     while running:
 
         playerHP = playerAttr["stat"]["HP"]
+        vitality = playerAttr["stat"]["vit"]
+        strength = playerAttr["stat"]["str"]
+        luck     = playerAttr["stat"]["lck"]
+        weapon   = playerAttr["stat"]["wpn"]
+        armor    = playerAttr["stat"]["arm"]
         clear()
         print "+-------------------------------------------------------------------------+"
         print "|  Player HP : {:<8.1f}                                                   |".format(playerHP)
         print "|  Stats:   |  Vitality  |  Strength  |  Luck  |  Weapon  |  Armor  |     |"
-        print "|           |     %s      |     %s      |   %s    |    %s     |    %s    |     |" % (M, G, C, X, P)
+        print "|           |     %s      |     %s      |   %s    |    %s     |    %s    |     |" % (vitality, strength, luck, weapon, armor)
         print '+-------------------------------------------------------------------------+'
         terrain()
         print
