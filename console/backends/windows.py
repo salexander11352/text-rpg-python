@@ -75,14 +75,12 @@ def _get_cursor_pos():
 
 def _get_clear_color():
     cursorPos = _get_cursor_pos()
-    print cursorPos
 
     rCoord = w32.COORD()
     rCoord.X = 0
     rCoord.Y = cursorPos[1]
 
     chars = cursorPos[0] + 1
-    print chars
 
     attr = (w32.WORD * chars)(0)
     attrPtr = ct.cast(attr, ct.POINTER(w32.WORD))

@@ -31,7 +31,7 @@ def set_text_color(text, background):
     impl._set_text_color(text, background)
 
 def clear_screen():
-    print
+    print ()
     impl._clear_screen()
 
 def clear_color():
@@ -68,10 +68,7 @@ def fill_line(char=" "):
 
 def make_heading(text):
     '''Print a heading to the screen.'''
-    print fill_line(char='#')
-    print center_text(text)
-    print fill_line(char='#')
-
-if __name__ == '__main__':
-    make_heading("Oooooooo000O")
+    print (fill_line(char='#'))
+    print (center_text(text))
+    print (fill_line(char='#'))
 
