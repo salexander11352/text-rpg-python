@@ -227,17 +227,17 @@ def battle(enemy):
     checkLuck = True
     while not dead:
         print playerHP, enemyHP
-        print "+-----------------------------------------------------------------+"
-        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |   flee   |        |" 
-        print "|           |          |          |            |          |        |"
-        print "|           |   atk    |   def    |     i      |     r    |        |" 
-        print '+------------------------------------------------------------------+'
+        print "+-------------------------------------------------------------------+"
+        print "|  Actions:   |  Attack  |  Defend  |  Use Item  |  flee  |         |" 
+        print "|             |          |          |            |        |         |"
+        print "|             |   atk    |    def   |      i     |    r   |         |" 
+        print '+-------------------------------------------------------------------+'
 
         action = raw_input(" Choose action: ")
         if action == "atk":
-            pass 
+            enemyHP = attack(player, enemy, enemyHP)
         elif action == "def":
-            pass
+            playerHP = attack(enemy, player, playerHP) / 0.5
         elif action == "i":
             pass
         elif action == "r":
@@ -255,7 +255,7 @@ def battle(enemy):
                 #clear()
                 playerAttr["stat"]["HP"] = playerHP
                 print "You kick the goblin in the face."
-                print "\nHe died. Oops."
+                print "He died. Oops."
         else:
             checkLuck = False
             print "\n\n"
@@ -265,7 +265,7 @@ def battle(enemy):
                 dead = True
                 playerHP = 0
                 clear()
-                print "Oh dear! You have died!"
+                print "\nOh dear! You have died!\n"
                 running = False
                 raw_input("Press Enter to Return to Main Menu...")
         raw_input("Press Enter")
