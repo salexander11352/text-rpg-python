@@ -197,8 +197,6 @@ def attack(atk, dfn, dfnHP): # Used internally by battle() only!
         elif damage > rerollWindow:
             goodValue = True
 
-
-    
     # if damage != 0:
     #     damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
     # print "[DEBUG] Base damage is %.3f" % (damage)
@@ -229,19 +227,20 @@ def battle(enemy):
     while not dead:
         print playerHP, enemyHP
         print "+-----------------------------------------------------------------+"
-        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |  flee  |         |" 
-        print "|           |          |          |            |        |         |"
-        print "|\t    |     atk    |     def    |    i   |     r    |         |" 
+        print "|  Stats:   |  Attack  |  Defend  |  Use Item  |   flee   |        |" 
+        print "|           |          |          |            |          |        |"
+        print "|           |   atk    |   def    |     i      |     r    |        |" 
         print '+------------------------------------------------------------------+'
 
         action = raw_input(" Choose action: ")
         if action == "atk":
-            
+            pass 
         elif action == "def":
-
+            pass
         elif action == "i":
-
+            pass
         elif action == "r":
+            pass
 
         if player["lck"] >= enemy["lck"] or not checkLuck:
             print "\n\n"
@@ -521,9 +520,9 @@ def playGame():
         playerHP = playerAttr["stat"]["HP"]
         clear()
         print "+-------------------------------------------------------------------------+"
-        print "|  Player HP : %.1f                                                     |" % (playerHP)
+        print "|  Player HP : {:<8.1f}                                                   |".format(playerHP)
         print "|  Stats:   |  Vitality  |  Strength  |  Luck  |  Weapon  |  Armor  |     |"
-        print "|\t    |      %s     |      %s     |    %s   |     %s    |    %s    |     |" % (M, G, C, X, P)
+        print "|           |     %s      |     %s      |   %s    |    %s     |    %s    |     |" % (M, G, C, X, P)
         print '+-------------------------------------------------------------------------+'
         terrain()
         print
