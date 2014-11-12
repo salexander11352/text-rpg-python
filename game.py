@@ -198,77 +198,86 @@ def attack(atk, dfn, dfnHP): # Used internally by battle() only!
         elif damage > rerollWindow:
             goodValue = True
 
-    # if damage != 0:
-    #     damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
+    if damage != 0:
+        damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
     # print "[DEBUG] Base damage is %.3f" % (damage)
     
-    # # Weapon mod
-    # if damage != 0:
-    #     damage += damage * (atk["wpn"] / WPN_STAT_MOD)
+    # Weapon mod
+    if damage != 0:
+        damage += damage * (atk["wpn"] / WPN_STAT_MOD)
     # print "[DEBUG] Damage after wpn is %.3f" % (damage)
     
-    # #Armor mod
-    # if damage != 0:
-    #     damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
+    #Armor mod
+    if damage != 0:
+        damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
     # print "[DEBUG] Final damage output is %.3f" % (damage)
     
-    # return dfnHP - damage
-
-    # print "[DEBUG] Player HP: %.2f" % (playerHP)
-    # print "[DEBUG] Enemy HP:  %.2f" % (enemyHP)
+    return dfnHP - damage
 
 def battle(enemy):
     global running
     player = playerAttr["stat"]
     enemyHP = calcHP(enemy["vit"])
-    playerHP = playerAttr["stat"]["HP"]
+    playerHP = player["HP"]
 
-    dead = False
-    checkLuck = True
-    while not dead:
-        print playerHP, enemyHP
-        print "+-------------------------------------------------------------------+"
-        print "|  Actions:   |  Attack  |  Defend  |  Use Item  |  flee  |         |" 
-        print "|             |          |          |            |        |         |"
-        print "|             |   atk    |    def   |      i     |    r   |         |" 
-        print '+-------------------------------------------------------------------+'
-
-        action = raw_input(" Choose action: ")
-        if action == "atk":
+    print "+-------------------------------------------------------------------------+"
+    print "|  Actions:   |  Attack  |  Defend  | *Use Item  | *flee  | * Not avail.  |" 
+    print "|             |          |          |            |        | in current    |"
+    print "|             |   atk    |    def   |     *i     |   *r   | demo version  |" 
+    print '+-------------------------------------------------------------------------+'
+   
+    action = raw_input(" You have encountered an evil beast!\nHow do you choose to proceed?\n>>> ")
+    if action == "atk": # Player attempts to attack first
+        if player["lck"] >= enemy["lck"]:
+            print "\n You react quickly, striking the enemy first!"
             enemyHP = attack(player, enemy, enemyHP)
-        elif action == "def":
-            playerHP = attack(enemy, player, playerHP) / 0.5
-        elif action == "i":
-            pass
-        elif action == "r":
-            pass
-
-        if player["lck"] >= enemy["lck"] or not checkLuck:
-            print "\n\n"
-            #print"[DEBUG] Player vs. Enemy:"
-            enemyHP = attack(player, enemy, enemyHP)
-            if enemyHP <= 0:
-                global terMap
-                dead = True
-                enemyHP = 0
-                terMap[playerAttr["posy"]][playerAttr["posx"]] = e
-                #clear()
-                playerAttr["stat"]["HP"] = playerHP
-                print "You kick the goblin in the face."
-                print "He died. Oops."
         else:
-            checkLuck = False
-            print "\n\n"
-            #print "[DEBUG] Goblin vs. Player:"
-            playerHP = attack(enemy, player, playerHP)
-            if playerHP <= 0:
-                dead = True
-                playerHP = 0
-                clear()
-                print "\nOh dear! You have died!\n"
-                running = False
-                raw_input("Press Enter to Return to Main Menu...")
-        raw_input("Press Enter")
+            print "\n You make an attempt at the beast, but he dodges\n your attack and swiftly retaliates."
+            playerHP = attack(enemy, player, playerHP) * 1.2
+    elif action == "def": # Player attempt to defend first
+        if player["lck"] >= enemy["lck"]:
+            print "\n You block the enemy's initial attack successfully!"
+            playerHP = attack(enemy, player, playerHP) / 3.8
+        else:
+            print "\n You try to block, but the enemy sidesteps with a\n vicious blow to your side."
+            playerHP = attack(enemy, player, playerHP) * 0.8
+    #elif action == "i":
+    #    pass
+    #elif action == "r":
+    #    pass
+    
+    dead = False
+    while not dead:
+    
+        print "[DEBUG] Player HP: %.2f" % (playerHP)
+        print "[DEBUG] Enemy HP:  %.2f" % (enemyHP)
+
+        print "\n\n"
+        #print"[DEBUG] Player vs. Enemy:"
+        enemyHP = attack(player, enemy, enemyHP)
+        if enemyHP <= 0:
+            global terMap
+            dead = True
+            enemyHP = 0
+            terMap[playerAttr["posy"]][playerAttr["posx"]] = e
+            #clear()
+            playerAttr["stat"]["HP"] = playerHP
+            print "You kick the goblin in the face."
+            print "He died. Oops."
+            raw_input("Press Enter to Continue")
+        raw_input("Press Enter to Continue")
+        
+        print "\n\n"
+        #print "[DEBUG] Goblin vs. Player:"
+        playerHP = attack(enemy, player, playerHP)
+        if playerHP <= 0:
+            dead = True
+            playerHP = 0
+            clear()
+            print "\nOh dear! You have died!\n"
+            running = False
+            raw_input("Press Enter to Return to Main Menu...")
+        raw_input("Press Enter to Continue")
 
 def spawnPlayer():
     global playerAttr
