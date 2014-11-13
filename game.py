@@ -222,17 +222,17 @@ def attack(atk, dfn, dfnHP): # Used internally by battle() only!
 
     if damage != 0:
         damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
-    # ( print "[DEBUG] Base damage is %.3f" % (damage))
+    debug("Base damage is %.3f" % (damage))
     
     # Weapon mod
     if damage != 0:
         damage += damage * (atk["wpn"] / WPN_STAT_MOD)
-    # ( print "[DEBUG] Damage after wpn is %.3f" % (damage))
+    debug("Damage after wpn is %.3f" % (damage))
     
     #Armor mod
     if damage != 0:
         damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
-    # ( print "[DEBUG] Final damage output is %.3f" % (damage))
+    debug("Final damage output is %.3f" % (damage))
     
     return dfnHP - damage
 
@@ -273,7 +273,7 @@ def battle(enemy):
         print (" Enemy HP:  %.2f" % (enemyHP))
 
         print ("\n\n")
-        #print ("[DEBUG] Player vs. Enemy:")
+        debug("Player vs. Enemy:")
         enemyHP = attack(player, enemy, enemyHP)
         if enemyHP <= 0:
             global terMap
@@ -288,7 +288,7 @@ def battle(enemy):
             time.sleep(1)
         
         print ("\n\n")
-        #print ("[DEBUG] Goblin vs. Player:")
+        debug("Goblin vs. Player:")
         playerHP = attack(enemy, player, playerHP)
         if playerHP <= 0:
             dead = True
@@ -328,7 +328,6 @@ def terrain():
     for y in range(len(terMap)):
         sys.stdout.write("\t     ")
         for x in range(len(terMap[y])):
-            #print ( x, y)
             currentChar = terMap[y][x]
             if playerAttr['posx'] == x and playerAttr['posy'] == y:
                 out = unicode(P+" ")
