@@ -29,7 +29,7 @@ e = " "       # Empty Space
 D = u"\u2504" # Door
 P = "P"       # Player
 
-# Walls 
+# Walls
 V = u"\u2551" # vertical
 H = u"\u2550" # horizontal
 L = u"\u255A" # bottom-left
@@ -94,8 +94,7 @@ enemy["arm"] = 0
 #warriorAttr["stat"]["lck"]
 def warriorAttr():
     playerAttr["role"] = "Warrior"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 14
@@ -111,8 +110,7 @@ def warriorAttr():
 
 def knightAttr():
     playerAttr["role"] = "Knight"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 10
@@ -128,8 +126,7 @@ def knightAttr():
 
 def royaltyAttr():
     playerAttr["role"] = "Royalty"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 8
@@ -145,8 +142,7 @@ def royaltyAttr():
 
 def mageAttr():
     playerAttr["role"] = "Mage"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 9
@@ -162,8 +158,7 @@ def mageAttr():
 
 def thiefAttr():
     playerAttr["role"] = "thief"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 10
@@ -179,8 +174,7 @@ def thiefAttr():
 
 def hunterAttr():
     playerAttr["role"] = "hunter"
-    playerAttr["posx"] = 0
-    playerAttr["posy"] = 0
+    playerAttr["pos"] = [0,0]
     playerAttr["stat"] = {}
     playerAttr["stat"]["HP"] = 0
     playerAttr["stat"]["vit"] = 12
@@ -223,17 +217,17 @@ def attack(atk, dfn, dfnHP): # Used internally by battle() only!
     if damage != 0:
         damage = (damage + (atk["lck"] / LUCK_MOD)) * atk["str"]
     debug("Base damage is %.3f" % (damage))
-    
+
     # Weapon mod
     if damage != 0:
         damage += damage * (atk["wpn"] / WPN_STAT_MOD)
     debug("Damage after wpn is %.3f" % (damage))
-    
+
     #Armor mod
     if damage != 0:
         damage -= damage * (dfn["arm"] / WPN_STAT_MOD)
     debug("Final damage output is %.3f" % (damage))
-    
+
     return dfnHP - damage
 
 def battle(enemy):
@@ -249,7 +243,7 @@ def battle(enemy):
     print ("|             |          |          |            |        | in current    |")
     print ("|             |   atk    |    def   |     *i     |   *r   | demo version  |" )
     print ('+-------------------------------------------------------------------------+')
-   
+
     action = input(" You have encountered an evil beast!\nHow do you choose to proceed?\n>>> ")
     if action == "atk": # Player attempts to attack first
         if player["lck"] >= enemy["lck"]:
@@ -265,10 +259,10 @@ def battle(enemy):
         else:
             print ("\n You try to block, but the enemy sidesteps with a\n vicious blow to your side.")
             playerHP = attack(enemy, player, playerHP) * 0.8
-    
+
     dead = False
     while not dead:
-    
+
         print (" Player HP: %.2f" % (playerHP))
         print (" Enemy HP:  %.2f" % (enemyHP))
 
@@ -279,14 +273,14 @@ def battle(enemy):
             global terMap
             dead = True
             enemyHP = 0
-            terMap[playerAttr["posy"]][playerAttr["posx"]] = e
+            terMap[playerAttr["pos"][1]][playerAttr["pos"][0]] = e
             #con.clear_screen()
             playerAttr["stat"]["HP"] = playerHP
             print ("You kick the goblin in the face.")
             print ("He died. Oops.")
             input("Press Enter to Continue")
             time.sleep(1)
-        
+
         print ("\n\n")
         debug("Goblin vs. Player:")
         playerHP = attack(enemy, player, playerHP)
@@ -302,8 +296,8 @@ def battle(enemy):
 def spawnPlayer():
     global playerAttr
 
-    playerPosx = playerAttr['posx']
-    playerPosy = playerAttr['posy']
+    playerPosx = playerAttr['pos'][0]
+    playerPosy = playerAttr['pos'][1]
 
     # Place Character on map
     playerSeed = random.randint(1,3)
@@ -317,19 +311,19 @@ def spawnPlayer():
         playerPosx = 21
         playerPosy = 21
 
-    playerAttr['posx'] = playerPosx
-    playerAttr['posy'] = playerPosy
+    playerAttr['pos'][0] = playerPosx
+    playerAttr['pos'][1] = playerPosy
 
 def terrain():
     global playerPosy, playerPosx
-    
+
     # Draw map
     print ('')
     for y in range(len(terMap)):
         sys.stdout.write("\t     ")
         for x in range(len(terMap[y])):
             currentChar = terMap[y][x]
-            if playerAttr['posx'] == x and playerAttr['posy'] == y:
+            if playerAttr['pos'][0] == x and playerAttr['pos'][1] == y:
                 out = unicode(P+" ")
             elif currentChar == H or currentChar == L or currentChar == F:
                 out = unicode(currentChar)+H
@@ -340,12 +334,25 @@ def terrain():
             sys.stdout.write(out)
         print ('')
 
+directionMap = {'w': [0,-1],'s':[0,1],'a':[-1,0],'d':[1,0]}
+
+def change_direction(pos, direction):
+    return [pos[i]+direction[i] for i in xrange(len(pos))]
+
+def is_collision(pos, items):
+    posX = pos[0]
+    posY = pos[1]
+    if playArea[posY][posX] in items:
+        return True
+    else:
+        return False
+
 def moveChar():
     global playerAttr
     direction = input("    Move direction: ")
 
-    playerPosy = playerAttr['posy']
-    playerPosx = playerAttr['posx']
+    playerPosy = playerAttr['pos'][1]
+    playerPosx = playerAttr['pos'][0]
 
     if direction == "w":
         if terMap[playerPosy-1][playerPosx] in obsticles:
@@ -371,8 +378,8 @@ def moveChar():
         else:
             playerPosx += 1
 
-    playerAttr['posx'] = playerPosx
-    playerAttr['posy'] = playerPosy
+    playerAttr['pos'][0] = playerPosx
+    playerAttr['pos'][1] = playerPosy
 
 def skillAlc():
     vitality = playerAttr["stat"]["vit"]
@@ -551,8 +558,8 @@ def playGame():
         print ("|           |       W       |       A       |       S      |      D       |")
         print ('+-------------------------------------------------------------------------+')
         moveChar()
-        playerPosy = playerAttr['posy']
-        playerPosx = playerAttr['posx']
+        playerPosy = playerAttr['pos'][1]
+        playerPosx = playerAttr['pos'][0]
         if terMap[playerPosy][playerPosx] == D:
             con.clear_screen()
             print ("\n\n    YOU IS WIN!1!!1!")
@@ -561,7 +568,7 @@ def playGame():
             running = False
         elif terMap[playerPosy][playerPosx] in [R,G,X]:
             battle(enemy)
-            
+
 def menu():
     global running
     while True:
