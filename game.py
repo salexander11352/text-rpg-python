@@ -198,7 +198,7 @@ def hunterAttr():
 
 def debug(s):
     if DEBUG:
-        print (s)
+        print ('[DEBUG]: %s' % s)
 
 def calcHP(vit): # Used internally by battle() only!
     return ( vit * ( HP_BASE_MOD + ( vit * HP_MULT )))
