@@ -130,3 +130,9 @@ ReadConsoleOutputAttribute = bind_function(
         BOOL,
         (HANDLE, LPWORD, DWORD, COORD, LPDWORD)
         )
+
+SetConsoleCursorPosition = bind_function(
+        kernel32,
+        'SetConsoleCursorPosition',
+        BOOL,
+        (HANDLE, COORD))
