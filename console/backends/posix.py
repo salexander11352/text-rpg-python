@@ -3,6 +3,7 @@ import sys
 import struct
 import fcntl
 import termios
+import select
 import tty
 
 _BLACK   = '0'
@@ -57,13 +58,17 @@ def _set_text_color(text, background):
         colors += str(int(background) + 10)
     sys.stdout.write('\x1b[0;%sm' % colors)
 
-def _input_char(num):
-    fd = sys.stdin.fileno()
-    prevSettings = termios.tcgetattr(fd)
-    tty.setraw(fd)
+def _input_char(num, block=True):
+    prevSettings = termios.tcgetattr(sys.stdin)
+    tty.setcbreak(sys.stdin.fileno())
 
-    strAc = os.read(fd, num)
-    termios.tcsetattr(fd, termios.TCSADRAIN, prevSettings)
+    strAc = ''
+    value = select.select([sys.stdin],[],[],0.05)[0]
+
+    if block or sys.stdin in value:
+        strAc = sys.stdin.read(1)
+
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, prevSettings)
     return strAc
 
 def _get_cursor_pos():

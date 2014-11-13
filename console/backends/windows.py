@@ -57,11 +57,11 @@ def _get_console_size():
 
     return (width, height)
 
-def _input_char(num):
+def _input_char(num, block=True):
     val = ''
     for i in range(num):
-        #if msvcrt.kbhit():
-        val += msvcrt.getch()
+        if block or msvcrt.kbhit():
+            val += msvcrt.getch()
     return val
 
 def _get_cursor_pos():

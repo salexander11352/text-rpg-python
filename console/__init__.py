@@ -40,8 +40,8 @@ def clear_color():
 def get_cursor_pos():
     impl._get_cursor_pos()
 
-def input_char(num):
-    return impl._input_char(num)
+def input_char(num, block=True):
+    return impl._input_char(num, block)
 
 # Helper functions
 def center_text(text, padding=' '):
