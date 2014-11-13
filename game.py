@@ -366,117 +366,226 @@ def moveChar():
     playerAttr['pos'] = playerPos
 
 def skillAlc():
-    vitality = playerAttr["stat"]["vit"]
-    strength = playerAttr["stat"]["str"]
-    luck     = playerAttr["stat"]["lck"]
-    con.clear_screen()
-    print ("\n\n        Character Creation")
-    print ("\n\n    Welcome to the character creator.")
-    print ("    Here you can edit your character by ")
-    print ("    adding any points that you have to ")
-    print ("    varius stats.\n")
-    name=input("    What's your character's name? ")
-    points=10
-    attributes=("vitality", "strength", "luck")
+    vitality     = playerAttr["stat"]["vit"]
+    endurance    = playerAttr["stat"]["end"]
+    intellegence = playerAttr["stat"]["int"]
+    strength     = playerAttr["stat"]["str"]
+    dexterity    = playerAttr["stat"]["dex"]
+    magika       = playerAttr["stat"]["mag"]
+    faith        = playerAttr["stat"]["fth"]
+    luck         = playerAttr["stat"]["lck"]
+
+    print ("""
+
+            Character Creation
+        This is were you can give your 
+        character a name and allocate 
+        any skill points you have. You
+        start with 10 free points to 
+        spend in any skill you see fit.
+        """)
+    points = 10
+    name   = " "
+    attrs  = ("1", "2", 
+              "3", "4",
+              "5", "6",
+              "7", "8")
 
     while True:
-        con.clear_screen()
-        print ('')
-        print (" you have %s points left." % (points))
+        clear()
         print ("""
-        1-spend skill points
-        2-remove skill points
-        3-view skill points
-        4-done
-        """)
-        choice = input("    choice: ")
-        con.clear_screen()
-        if choice == "1":
-            attribute = input(" which attribute? \n 1. strength\n 2. vitality\n 3. luck\n >>> ")
-            if attribute in attributes:
-                add = int(input(" how many points? "))
-                if add <= points and add > 0:
-                    if attribute == "strength" or attribute == "1":
-                        strength += add
-                        print (" %s now has %s points in strength." % (name, strength))
-                        input(" Press Enter to go back to menu.")
-                        con.clear_screen()
-                    elif attribute == "vitality" or attribute == "2":
-                        vitality += add
-                        print (" %s now has %s points in vitality." % (name, vitality))
-                        input(" Press Enter to go back to menu.")
-                        con.clear_screen()
-                    elif attribute == "luck" or attribute == "3":
-                        luck += add
-                        print (" %s now has %s points in luck." % (name, luck))
-                        input(" Press Enter to go back to menu.")
-                        con.clear_screen()
-                    points -= add
+        Character Name: %s\n
+        Vitality ...... %d
+        Intellegence .. %d
+        Endurance ..... %d
+        Strength ...... %d
+        Dexterity ..... %d
+        Magika ........ %d
+        Faith ......... %d
+        Luck .......... %d
+        """) % (name, vitality, endurance, 
+                intellegence, strength, 
+                dexterity, magika, faith, luck)
+        print (""""\n\n
+                1. Name Your Character
+                2. Spend Skill Points
+                3. Remove Skill Points
+                4. Exit Character Creation
+                \n\n""")
+        choice = raw_input(" >>> ")
+        choosingName = True
+        while choosingName:
+            if choice == "1":
+                clear()
+                print ("\nPlease input a name for your chaacter.")
+                name = raw_input("\n Name: ")
+                check = raw_input("Are you sure this correct name. y/n\n >>> ")
+                if check.lower() == "y":
+                    choosingName = False
                 else:
-                    print (" invalid number of points.")
-                    input(" Press Enter to go back to menu.")
-                    con.clear_screen()
-            else:
-                print (" invalid attribute.")
-                input(" Press Enter to go back to menu.")
-                con.clear_screen()
-        elif choice == "2":
-            attribute = input("\n which attribute? strength, vitality, or luck? ")
-            if attribute in attributes:
-                take = int(input("\n how many points? "))
-                if attribute == "1" and take <= strength and take > 0:
-                    strength -= take
-                    print (" %s now has %s points in strength." % (name, strength))
-                    points += take
-                    input(" Press Enter to go back to menu.")
-                    con.clear_screen()
-                elif attribute == "2" and take <= vitality and take > 0:
-                    vitality -= take
-                    print (" %s now has %s points in vitality." % (name, vitality))
-                    points += take
-                    input(" Press Enter to go back to menu.")
-                    con.clear_screen()
-                elif attribute == "3" and take <= dexterity and take > 0:
-                    luck -= take
-                    print (" %s now has %s points in luck." % (name, luck))
-                    points += take
-                    input(" Press Enter to go back to menu.")
-                    con.clear_screen()
+                    pass
+            elif choice == "2":
+                clear()
+                attribute = raw_input("""
+        Which Attribute?
+        1. Vitality
+        2. Intellegence
+        3. Endurance
+        4. Strength
+        5. Dexterity
+        6. Magika
+        7. Faith
+        8. Luck
+        9. Back
+ >>> """)
+                if attribute in attrs:
+                    add = int(raw_input(" How many points do you wish to allicate?\n >>> "))
+                    if add <= points and add > 0:
+                        if attribute == "1":
+                            vitality += add
+                            print " %s now has %s points in vitality." % (name, vitality)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "2":
+                            intellegence += add
+                            print " %s now has %s points in intellegence." % (name, intellegence)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "3":
+                            endurance += add
+                            print " %s now has %s points in endurance." % (name, endurance)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "4":
+                            strength += add
+                            print " %s now has %s points in strength." % (name, strength)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "5":
+                            dexterity += add
+                            print " %s now has %s points in dexterity." % (name, dexterity)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "6":
+                            magika += add
+                            print " %s now has %s points in magika." % (name, magika)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "7":
+                            faith += add
+                            print " %s now has %s points in faith." % (name, faith)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "8":
+                            luck += add
+                            print " %s now has %s points in luck." % (name, luck)
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        point =- add
+                    else:
+                        print (" ERROR: Please input a valid number.")
+                        raw_input(" Press Enter to go back to menu.")
+                        clear()
+                elif attribute == "9":
+                    break
                 else:
-                    print (" invalid number of points.")
-                    input(" Press Enter to go back to menu.")
-                    con.clear_screen()
-            else:
-                print (" invalid attribute.")
-                input(" Press Enter to go back to menu.")
-                con.clear_screen()
-        elif choice == "3":
-            print ("  strength - %s" % strength)
-            print ("  vitality - %s" % vitality)
-            print ("  luck - %s" % luck)
-            input(" Press Enter to go back to menu.")
-            con.clear_screen()
-        elif choice == "4":
-            if points == 0:
-                print ("\n congrats! you're done designing %s." % (name))
-                print (" %s has %s strength, %s vitality, and %s luck." % (name, strength, vitality, luck))
-                input(" Press Enter to start your adventure.")
-                con.clear_screen()
-                break
-            else:
-                print (" use all your points!")
-                input(" Press Enter to go back to menu.")
-                con.clear_screen()
-        else:
-            print (" invalid choice.")
-            input(" Press Enter to go back to menu.")
-            con.clear_screen()
+                    print " ERROR: Please inout a attribute."
+                    raw_input(" Press Enter to go back to menu.")
+                    clear()
+            elif choice == "3":
+                clear()
+                attribute = raw_input("""
+        Which Attribute?
+        1. Vitality
+        2. Intellegence
+        3. Endurance
+        4. Strength
+        5. Dexterity
+        6. Magika
+        7. Faith
+        8. Luck
+        9. Back
+ >>> """)
+                if attribute in attrs:
+                    take = int(raw_input(" How many points do you wish to allicate?\n >>> "))
+                    if take <= points and add > 0:
+                        if attribute == "1":
+                            vitality -= take
+                            print " %s now has %s points in vitality." % (name, vitality)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "2":
+                            intellegence -= take
+                            print " %s now has %s points in intellegence." % (name, intellegence)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "3":
+                            endurance -= take
+                            print " %s now has %s points in endurance." % (name, endurance)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "4":
+                            strength -= take
+                            print " %s now has %s points in strength." % (name, strength)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "5":
+                            dexterity -= take
+                            print " %s now has %s points in dexterity." % (name, dexterity)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "6":
+                            magika -= take
+                            print " %s now has %s points in magika." % (name, magika)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "7":
+                            faith -= take
+                            print " %s now has %s points in faith." % (name, faith)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                        elif attribute == "8":
+                            luck -= take
+                            print " %s now has %s points in luck." % (name, luck)
+                            points += take
+                            raw_input(" Press Enter to go back to menu.")
+                            clear()
+                    else:
+                        print (" ERROR: Please input a valid number.")
+                        raw_input(" Press Enter to go back to menu.")
+                        clear()
+                elif attribute == "9":
+                    break
+                else:
+                    print " ERROR: Please inout a attribute."
+                    raw_input(" Press Enter to go back to menu.")
+                    clear()
+            if choice == "4":
+                start = raw_input(" Do you want to start your adventure?\n >>> ")
+                if start.lower() == "yes" or start.lower() == "y":
+                    print" Adventure starting in 3 secs."
+                    time.sleep(1)
+                    print" Adventure starting in 2 secs."
+                    time.sleep(1)
+                    print" Adventure starting in 1 sec."
+                    time.sleep(1)
+                    clear()
 
-    playGame()
-
-    playerAttr["stat"]["vit"] = vitality
-    playerAttr["stat"]["str"] = strength
-    playerAttr["stat"]["lck"] = luck
+    playerAttr["stat"]["vit"] = vitality    
+    playerAttr["stat"]["end"] = endurance   
+    playerAttr["stat"]["int"] = intellegence
+    playerAttr["stat"]["str"] = strength    
+    playerAttr["stat"]["dex"] = dexterity   
+    playerAttr["stat"]["mag"] = magika      
+    playerAttr["stat"]["fth"] = faith       
+    playerAttr["stat"]["lck"] = luck        
 
 def charSelect():
     valid = False
