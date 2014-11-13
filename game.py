@@ -342,44 +342,28 @@ def change_direction(pos, direction):
 def is_collision(pos, items):
     posX = pos[0]
     posY = pos[1]
-    if playArea[posY][posX] in items:
+    if terMap[posY][posX] in items:
         return True
     else:
         return False
 
 def moveChar():
     global playerAttr
-    direction = input("    Move direction: ")
+    char = con.input_char(1)
 
-    playerPosy = playerAttr['pos'][1]
-    playerPosx = playerAttr['pos'][0]
+    playerPos = playerAttr['pos']
 
-    if direction == "w":
-        if terMap[playerPosy-1][playerPosx] in obsticles:
-            print ("Can't walk that direction!")
+    try:
+        newPos = change_direction(playerAttr['pos'], directionMap[char])
+        if not is_collision(newPos, obsticles):
+            playerPos = newPos
         else:
-            playerPosy -= 1
-
-    elif direction == "s":
-        if terMap[playerPosy+1][playerPosx] in obsticles:
             print ("Can't walk that direction!")
-        else:
-            playerPosy += 1
 
-    elif direction == "a":
-        if terMap[playerPosy][playerPosx-1] in obsticles:
-            print ("Can't walk that direction!")
-        else:
-            playerPosx -= 1
+    except KeyError:
+        pass
 
-    elif direction == "d":
-        if terMap[playerPosy][playerPosx+1] in obsticles:
-            print ("Can't walk that direction!")
-        else:
-            playerPosx += 1
-
-    playerAttr['pos'][0] = playerPosx
-    playerAttr['pos'][1] = playerPosy
+    playerAttr['pos'] = playerPos
 
 def skillAlc():
     vitality = playerAttr["stat"]["vit"]
