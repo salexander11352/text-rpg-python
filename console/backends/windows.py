@@ -74,7 +74,7 @@ def _get_cursor_pos():
     return cursorPos
 
 def _set_cursor_pos(x, y):
-	stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
+    stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
     csbi = w32.CONSOLE_SCREEN_BUFFER_INFOEX()
     result = w32.GetConsoleScreenBufferInfoEx(stdHandle, ct.byref(csbi))
 
