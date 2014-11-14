@@ -38,7 +38,7 @@ def clear_color():
     impl._clear_color()
 
 def get_cursor_pos():
-    impl._get_cursor_pos()
+    return impl._get_cursor_pos()
 
 def set_cursor_pos(x, y):
 	impl._set_cursor_pos(x, y)
