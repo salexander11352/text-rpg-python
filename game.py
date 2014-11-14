@@ -36,10 +36,10 @@ def startGame():
     global player
 
     openingStory() 
-    titleMenu()
-    player = createCharacter()
-
-    player.spawnRandom()
+    while True: # Main loop
+        titleMenu()
+        player = createCharacter()
+        playGame()
     # Draw main game screen
     # ...
 
@@ -121,8 +121,8 @@ def createCharacter():
 def createName():
     print (" What do you call yourself, adventurer?\n\n")
     name = input(prompt)
-    return name
     con.clear_screen()
+    return name
 
 def classSelect(name):
     valid = False
@@ -359,6 +359,53 @@ def allocStats(attr, name):
 
 ############################
 #### Gameplay Functions ####
+def playGame():
+    player.spawnRandom()
+
+    quitToMenu = False # Eventually add pause/quit feature
+    while not quitToMenu:
+        con.clear_screen()
+        
+        drawStatWindow()
+        drawMap()
+        drawGuideWindow()
+        pause() # temp
+        
+        # moveChar()
+
+def drawStatWindow():
+    pvit = player.attr["vit"]
+    pend = player.attr["end"]
+    pint = player.attr["int"]
+    pstr = player.attr["str"]
+    pdex = player.attr["dex"]
+    pmag = player.attr["mag"]
+    pfth = player.attr["fth"]
+    plck = player.attr["lck"]
+    pwpn = player.gear["wpn"]
+    parm = player.gear["arm"]
+    #           1         2         3         4         5         6         7         8
+    #       .........!.........!.........!.........!.........!.........!.........!.........!
+    print ("+------------------------------------------------------------------------------+")
+    print ("| Stats:     |                     Player name: {:<30s} |".format( player.name ))
+    print ("|     HP     | Vit | End | Int | Str | Dex | Mag | Fth | Lck | Wpn | Arm |     |")
+    print ("|  {:^8.1f}  | {:^3d} | {:^3d} | {:^3d} | {:^3d} | {:^3d} "
+           "| {:^3d} | {:^3d} | {:^3d} | {:^3d} | {:^3d} |     |\n"
+           "+------------------------------------------------------------------------------+"
+           "\n".format(player.hp, pvit, pend, pint, pstr, pdex, pmag, pfth, plck, pwpn, parm))
+
+def drawGuideWindow():
+    #           1         2         3         4         5         6         7         8
+    #       .........!.........!.........!.........!.........!.........!.........!.........!
+    print ("+------------------------------------------------------------------------------+")
+    print ("| Legend:        |  Mountain  |  Goblin  |  Chest  |  GuardedChest  |  Player  |")
+    print ("|                |     %s      |     %s    |    %s    |       %s        |     %s    |") % (M, G, C, X, P )
+    print ("+------------------------------------------------------------------------------+")
+    print ("| Controls:    |      Up       |      Down     |     Left      |     Right     |")
+    print ("|              |       w       |        s      |       a       |       d       |")
+    print ("+------------------------------------------------------------------------------+")
+    print ("")
+
 def drawMap():
     posx = player.pos[0]
     posy = player.pos[1]
@@ -384,6 +431,8 @@ def drawMap():
             sys.stdout.write(out)
         print ('')
 
+def movement():
+    pass
 
 ############################
 #### Utility Functions #####
