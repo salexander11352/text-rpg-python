@@ -81,6 +81,9 @@ def _get_cursor_pos():
     valueSplit = value[left+1:righ].split(';')
     return valueSplit[1], valueSplit[0]
 
+def _set_cursor_pos(x, y):
+    sys.stdout.write('\x1b[%s;%sH' % (y+1, x+1))
+
 def _clear_screen():
     os.system('clear')
 
