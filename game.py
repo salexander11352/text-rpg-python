@@ -369,9 +369,8 @@ def playGame():
         drawStatWindow()
         drawMap()
         drawGuideWindow()
-        pause() # temp
-        
-        # moveChar()
+
+        moveChar()
 
 def drawStatWindow():
     pvit = player.attr["vit"]
@@ -404,7 +403,6 @@ def drawGuideWindow():
     print ("| Controls:    |      Up       |      Down     |     Left      |     Right     |")
     print ("|              |       w       |        s      |       a       |       d       |")
     print ("+------------------------------------------------------------------------------+")
-    print ("")
 
 def drawMap():
     posx = player.pos[0]
@@ -431,8 +429,15 @@ def drawMap():
             sys.stdout.write(out)
         print ('')
 
+############################
+####### Player Phase #######
 def movement():
-    pass
+    char = con.input_char(1) # TODO: this function's args have changed in master branch. Fix.
+
+############################
+####### Enemy Phase ########
+
+
 
 ############################
 #### Utility Functions #####
