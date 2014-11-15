@@ -5,19 +5,9 @@ import sys
 import time
 import console as con
 from classAttr import *
+from pycompat import *
 
 con.set_text_color(con.darkgreen, con.black)
-
-PYTHON_3 = sys.version_info.major == 3
-
-if PYTHON_3:
-    range = range
-    unicode = str
-    input = input
-else:
-    range = xrange
-    unicode = unicode
-    input = raw_input
 
 # Map Entities
 M = "^"       # Mountion/Rocks
