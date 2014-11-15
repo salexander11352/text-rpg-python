@@ -10,14 +10,14 @@ from pycompat import *
 con.set_text_color(con.darkgreen, con.black)
 
 # Map Entities
-M = "^"       # Mountion/Rocks
-G = "&"       # Static Goblin
-R = "&"       # Random Goblin
-C = "#"       # Treasure Chest
-X = "%"       # Guarded Chest
-e = " "       # Empty Space
-D = u"\u2504" # Door
-P = "P"       # Player
+M = u"^"       # Mountion/Rocks
+G = u"&"       # Static Goblin
+R = u"&"       # Random Goblin
+C = u"#"       # Treasure Chest
+X = u"%"       # Guarded Chest
+e = u" "       # Empty Space
+D = u"\u2504"  # Door
+P = u"P"       # Player
 
 # Walls
 V = u"\u2551" # vertical
@@ -206,20 +206,26 @@ def terrain():
 
     # Draw map
     print ('')
+    outArr = []
     for y in range(len(terMap)):
-        sys.stdout.write("\t     ")
+        newRow = []
+        newRow.append(u"\t     ")
         for x in range(len(terMap[y])):
             currentChar = terMap[y][x]
             if playerAttr['pos'][0] == x and playerAttr['pos'][1] == y:
-                out = unicode(P+" ")
-            elif currentChar == H or currentChar == L or currentChar == F:
-                out = unicode(currentChar)+H
+                out = P+u" "
+            elif currentChar in (H, L, F):
+                out = currentChar+H
             elif currentChar == D:
-                out = "\b"+(unicode("-")*3)
+                out = u"\b"+u"-"*3
             else:
-                out = unicode(currentChar)+u" "
-            sys.stdout.write(out)
-        print ('')
+                out = currentChar+u" "
+            newRow.append(out)
+        newRow.append(u'\n')
+        newRow = ''.join(newRow)
+        outArr.append(newRow)
+    outArr = ''.join(outArr)
+    sys.stdout.write(outArr)
 
 directionMap = {'w': [0,-1],'s':[0,1],'a':[-1,0],'d':[1,0]}
 
@@ -254,7 +260,7 @@ def moveChar():
         except KeyError:
             pass
 
-    playerAttr['pos'] = playerPos
+        playerAttr['pos'] = playerPos
 
 def skillAlc():
     vitality     = playerAttr["stat"]["vit"]
