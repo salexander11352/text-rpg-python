@@ -66,6 +66,9 @@ DOWN = '\x1b[B'
 RIGHT = '\x1b[C'
 LEFT = '\x1b[D'
 
+def _clear_backscroll():
+    sys.stdout.write('\033c')
+
 charArr = []
 def _input_char(block=True, lower=False):
     global charArr
@@ -128,4 +131,4 @@ def _clear_screen():
     os.system('clear')
 
 def _clear_color():
-    sys.stdout.write('\x1b[0m')
+    sys.stdout.write('\x1b[0m')
