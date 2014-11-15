@@ -158,7 +158,34 @@ def classSelect(name):
     con.clear_screen()
     return attr, gear
 
+def changePoints(points, skillPoints, mode):
+    if mode == 'add':
+        print ("Add how many points?")
+    elif mode == 'remove':
+        print ("Remove how many points?")
+    else:
+        print 'invalid mode, returning'
+        return points, skillPoints
+
+    numPoints = int(input(prompt))
+    if mode == 'remove':
+        numPoints = -numPoints
+        condition = numPoints > skillPoints or skillPoints <= 0
+    elif mode == 'add':
+        condition = numPoints > points or numPoints <= 0
+
+    if condition:
+        # Would be interesting to implement randomised responses here.
+        print ("What are you trying to do?")
+        pause()
+    else:
+        skillPoints += numPoints
+        points -= numPoints
+
+    return points, skillPoints
+
 def allocStats(attr, name):
+
     points = 10
 
     pvit = attr["vit"]
@@ -170,31 +197,49 @@ def allocStats(attr, name):
     pfth = attr["fth"]
     plck = attr["lck"]
 
-    print (" Do you have any specific training?\n\n"
-           "  This is were you can give your\n"
-           "character a name and allocate any\n"
-           "skill points you have. You start\n"
-           "with a total of 10 points to\n"
-           "allocate to any attribute you see\n"
-           "fit.\n\n")
+    skillsMsg = (
+            'Do you have any specific training?\n\n'
+            '  This is where you can give your\n'
+            'character a name and allocate any\n'
+            'skill points you have. You start with\n'
+            'a total of 10 points to allocate to\n'
+            'any attributes you see fit.\n\n')
+
+    skillValues = (
+            '   Name: %s\n\n'
+            '1. Vitality ...... %d\n'
+            '2. Intelligence .. %d\n'
+            '3. Endurance ..... %d\n'
+            '4. Strength ...... %d\n'
+            '5. Dexterity ..... %d\n'
+            '6. Magicka ....... %d\n'
+            '7. Faith ......... %d\n'
+            '8. Luck .......... %d\n\n'
+            '   Points: %d\n\n')
+
+    skillChoices = {
+            'vitality':     ["vitality", "vit", "v", "1"],
+            'intelligence': ["intelligence", "int", "i", "2"],
+            'endurance':    ["endurance", "end", "e", "3"],
+            'strength':     ["strength", "str", "s", "4"],
+            'dexterity':    ["dexterity", "dex", "d", "5"],
+            'magicka':      ["magicka", "mag", "m", "6"],
+            'faith':        ["faith", "fth", "fai", "f", "7"],
+            'luck':         ["luck", "lck", "luc", "l", "8"]}
+
+
+    print (skillsMsg)
+
     pause()
     
     charMenu = True
+
     while charMenu:
         con.clear_screen()
-        print ("   Name: %s\n\n"
-               "   Vitality ...... %d\n"
-               "   Intelligence .. %d\n"
-               "   Endurance ..... %d\n"
-               "   Strength ...... %d\n"
-               "   Dexterity ..... %d\n"
-               "   Magicka ....... %d\n"
-               "   Faith ......... %d\n"
-               "   Luck .......... %d\n\n"
-               "   Points: %d\n\n") % (name, pvit, pend, 
-                                       pint, pstr, pdex, 
-                                       pmag, pfth, plck, 
-                                       points)
+
+        print (skillValues) % (
+            name, pvit, pend, pint, pstr, pdex, pmag, pfth, plck, points)
+
         print ("1. Spend Points\n"
                "2. Remove Points\n"
                "3. Done!\n\n")
@@ -204,67 +249,35 @@ def allocStats(attr, name):
             
             con.clear_screen()
 
-            print ("   Name: %s\n\n"
-                   "1. Vitality ...... %d\n"
-                   "2. Intelligence .. %d\n"
-                   "3. Endurance ..... %d\n"
-                   "4. Strength ...... %d\n"
-                   "5. Dexterity ..... %d\n"
-                   "6. Magicka ....... %d\n"
-                   "7. Faith ......... %d\n"
-                   "8. Luck .......... %d\n\n"
-                   "   Points: %d\n\n") % (name, pvit, pend, 
-                                           pint, pstr, pdex, 
-                                           pmag, pfth, plck, 
-                                           points)
+            print (skillValues) % (
+                name, pvit, pend, pint, pstr, pdex, pmag, pfth, plck, points)
+
             statChoice = input(prompt)
 
-            validChoice = [["vitality", "vit", "v", "1"],
-                           ["intelligence", "int", "i", "2"], 
-                           ["endurance", "end", "e", "3"], 
-                           ["strength", "str", "s", "4"],
-                           ["dexterity", "dex", "d", "5"],
-                           ["magicka", "mag", "m", "6"],
-                           ["faith", "fth", "fai", "f", "7"],
-                           ["luck", "lck", "luc", "l", "8"]]
-            
-            if ( statChoice in x for x in validChoice ):
-                print ("Add how many points?")
-                numPoints = int(input(prompt))
-                if numPoints > points:
-                    print ("What exactly are you trying to achieve?")
-                    pause()
-                elif numPoints < 0:
-                    print ("I'm not doing that...?")
-                    pause()
-                elif numPoints == 0:
-                    print ("What are you trying to do?")
-                    pause()
-                else:                
-                    if   statChoice in validChoice[0]: # vit
-                        pvit += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[1]: # int
-                        pend += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[2]: # end
-                        pint += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[3]: # str
-                        pstr += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[4]: # dex
-                        pdex += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[5]: # mag
-                        pmag += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[6]: # fth
-                        pfth += numPoints
-                        points -= numPoints
-                    elif statChoice in validChoice[7]: # lck
-                        plck += numPoints
-                        points -= numPoints
+            if   statChoice in skillChoices['vitality']:
+                points, pvit = changePoints(points, pvit, 'add')
+
+            elif statChoice in skillChoices['intelligence']:
+                points, pint = changePoints(points, pint, 'add')
+
+            elif statChoice in skillChoices['endurance']:
+                points, pend = changePoints(points, pend, 'add')
+
+            elif statChoice in skillChoices['strength']:
+                points, pstr = changePoints(points, pstr, 'add')
+
+            elif statChoice in skillChoices['dexterity']:
+                points, pdex = changePoints(points, pdex, 'add')
+
+            elif statChoice in skillChoices['magicka']:
+                points, pmag = changePoints(points, pmag, 'add')
+
+            elif statChoice in skillChoices['faith']:
+                points, pfth = changePoints(points, pfth, 'add')
+
+            elif statChoice in skillChoices['luck']:
+                points, plck = changePoints(points, plck, 'add')
+
             else:
                 print("Invalid option.")
                 pause()
@@ -273,71 +286,38 @@ def allocStats(attr, name):
             
             con.clear_screen()
 
-            print ("   Name: %s\n\n"
-                   "1. Vitality ...... %d\n"
-                   "2. Intelligence .. %d\n"
-                   "3. Endurance ..... %d\n"
-                   "4. Strength ...... %d\n"
-                   "5. Dexterity ..... %d\n"
-                   "6. Magicka ....... %d\n"
-                   "7. Faith ......... %d\n"
-                   "8. Luck .......... %d\n\n"
-                   "   Points: %d\n\n") % (name, pvit, pend, 
-                                           pint, pstr, pdex, 
-                                           pmag, pfth, plck, 
-                                           points)
+            print (skillValues) % (
+                name, pvit, pend, pint, pstr, pdex, pmag, pfth, plck, points)
+
             statChoice = input(prompt)
 
-            validChoice = [["vitality", "vit", "v", "1"],
-                           ["intelligence", "int", "i", "2"], 
-                           ["endurance", "end", "e", "3"], 
-                           ["strength", "str", "s", "4"],
-                           ["dexterity", "dex", "d", "5"],
-                           ["magicka", "mag", "m", "6"],
-                           ["faith", "fth", "fai", "f", "7"],
-                           ["luck", "lck", "luc", "l", "8"]]
-            
-            if any( statChoice in x for x in validChoice ):
-                print ("Subtract how many points?")
-                numPoints = int(input(prompt))
-                if numPoints > points:          # TODO: Fix this logic
-                    print ("What exactly are you trying to achieve?")
-                    pause()
-                elif numPoints < 0:
-                    print ("I'm not doing that...?")
-                    pause()
-                elif numPoints == 0:
-                    print ("What are you trying to do?")
-                    pause()
-                else:                
-                    if   statChoice in validChoice[0]: # vit
-                        pvit -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[1]: # int
-                        pend -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[2]: # end
-                        pint -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[3]: # str
-                        pstr -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[4]: # dex
-                        pdex -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[5]: # mag
-                        pmag -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[6]: # fth
-                        pfth -= numPoints
-                        points += numPoints
-                    elif statChoice in validChoice[7]: # lck
-                        plck -= numPoints
-                        points += numPoints
+            if   statChoice in skillChoices['vitality']:
+                points, pvit = changePoints(points, pvit, 'remove')
+
+            elif statChoice in skillChoices['intelligence']:
+                points, pint = changePoints(points, pint, 'remove')
+
+            elif statChoice in skillChoices['endurance']:
+                points, pend = changePoints(points, pend, 'remove')
+
+            elif statChoice in skillChoices['strength']:
+                points, pstr = changePoints(points, pstr, 'remove')
+
+            elif statChoice in skillChoices['dexterity']:
+                points, pdex = changePoints(points, pdex, 'remove')
+
+            elif statChoice in skillChoices['magicka']:
+                points, pmag = changePoints(points, pmag, 'remove')
+
+            elif statChoice in skillChoices['faith']:
+                points, pfth = changePoints(points, pfth, 'remove')
+
+            elif statChoice in skillChoices['luck']:
+                points, plck = changePoints(points, plck, 'remove')
+
             else:
                 print("Invalid option.")
                 pause()
-
         elif choice.lower() in ("done", "d", "3"):
             charMenu = False
         else:
