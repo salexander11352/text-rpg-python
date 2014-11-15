@@ -67,48 +67,49 @@ RIGHT = '\x1b[C'
 LEFT = '\x1b[D'
 
 charArr = []
-def _input_char(num, block=True):
+def _input_char(block=True, lower=False):
     global charArr
-
-    strAc = ''
 
     fd = sys.stdin.fileno()
     prevSettings = termios.tcgetattr(fd)
-    if block:
+
+    if True:
         tty.setraw(fd)
-        charArr.extend(list(os.read(fd, 1000)))
-        termios.tcsetattr(fd, termios.TCSADRAIN, prevSettings)
+        attr = termios.TCSADRAIN
 
     else:
         # Copy settings
         newSett = prevSettings[:]
         newSett[3] &= ~termios.ICANON & ~termios.ECHO
-        newSett[6][termios.VMIN] = 1
+        newSett[6][termios.VMIN] = 0
         newSett[6][termios.VTIME] = 0
 
-        termios.tcsetattr(sys.stdin, termios.TCSANOW, newSett)
+        attr = termios.TCSANOW
+        termios.tcsetattr(sys.stdin, attr, newSett)
 
-        buf = array('i', [0])
-        fcntl.ioctl(sys.stdin, termios.FIONREAD, buf)
-        numIn = buf[0]
+    charArr.extend(list(os.read(fd, 1000)))
 
-        charArr.extend(list(os.read(fd, numIn)))
+    termios.tcsetattr(sys.stdin, attr, prevSettings)
 
-        termios.tcsetattr(sys.stdin, termios.TCSANOW, prevSettings)
-    for i in range(num):
-        charlan = len(charArr)
-        print charlan
-        if charlan > 1 :
-            if charArr[0] == '\x1b' and charArr[1] == '[':
-                strAc += '%s%s%s' % (charArr.pop(0), charArr.pop(0), charArr.pop(0))
+    charlan = len(charArr)
+    #print charlan
+    if charlan > 1 :
+        if charArr[0] == '\x1b' and charArr[1] == '[':
+            char = '%s%s%s' % (charArr.pop(0), charArr.pop(0), charArr.pop(0))
 
-            else:
-                strAc += charArr.pop(0)
-        elif charlan > 0:
-            strAc += charArr.pop(0)
         else:
-            break
-    return strAc
+            char = charArr.pop(0)
+    elif charlan > 0:
+        char = charArr.pop(0)
+
+    else:
+        char = ''
+
+    if lower:
+        char = char.lower()
+
+	#print '%r' % strAc
+    return char
 
 def _get_cursor_pos():
     os.write(sys.stdin.fileno(), "\x1b[6n")
@@ -127,4 +128,4 @@ def _clear_screen():
     os.system('clear')
 
 def _clear_color():
-    sys.stdout.write('\x1b[0m')
+    sys.stdout.write('\x1b[0m')

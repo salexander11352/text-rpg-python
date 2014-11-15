@@ -235,20 +235,24 @@ def is_collision(pos, items):
         return False
 
 def moveChar():
-    global playerAttr
-    char = con.input_char(1)
+    global playerAttr, running
+    char = con.input_char(lower=True)
+    if '\x1b' in char:
+        running = False
+    else:
+        print char
 
-    playerPos = playerAttr['pos']
+        playerPos = playerAttr['pos']
 
-    try:
-        newPos = change_direction(playerAttr['pos'], directionMap[char])
-        if not is_collision(newPos, obsticles):
-            playerPos = newPos
-        else:
-            print ("Can't walk that direction!")
+        try:
+            newPos = change_direction(playerAttr['pos'], directionMap[char])
+            if not is_collision(newPos, obsticles):
+                playerPos = newPos
+            else:
+                print ("Can't walk that direction!")
 
-    except KeyError:
-        pass
+        except KeyError:
+            pass
 
     playerAttr['pos'] = playerPos
 

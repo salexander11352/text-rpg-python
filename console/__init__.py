@@ -43,8 +43,8 @@ def get_cursor_pos():
 def set_cursor_pos(x, y):
 	impl._set_cursor_pos(x, y)
 
-def input_char(num, block=True):
-    return impl._input_char(num, block)
+def input_char(block=True, lower=False):
+    return impl._input_char(block, lower)
 
 # Helper functions
 def center_text(text, padding=' '):
