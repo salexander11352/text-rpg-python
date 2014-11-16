@@ -85,8 +85,8 @@ def _set_console_size(x, y):
 
     # This is needed for some odd reason or on repeated calls to this function 
     # the window shrinks in size.
-    conInfo.srWindow.Bottom += 1
-    conInfo.srWindow.Right += 1
+    conInfo.srWindow.Bottom = x
+    conInfo.srWindow.Right = y
     w32.SetConsoleScreenBufferInfoEx(stdHandle, ct.byref(conInfo))
 
 def _clear_size():
