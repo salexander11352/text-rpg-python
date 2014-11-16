@@ -70,7 +70,7 @@ def _input_char(num, block=True):
 def _get_cursor_pos():
     stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
     csbi = w32.CONSOLE_SCREEN_BUFFER_INFO()
-    result = w32.GetConsoleScreenBufferInfo(stdHandle, ct.byref(csbi))
+    w32.GetConsoleScreenBufferInfo(stdHandle, ct.byref(csbi))
 
     cursorPos = (csbi.dwCursorPosition.X, csbi.dwCursorPosition.Y)
 
@@ -82,11 +82,11 @@ def _set_cursor_pos(x, y):
     csbi = w32.CONSOLE_SCREEN_BUFFER_INFOEX()
     result = w32.GetConsoleScreenBufferInfoEx(stdHandle, ct.byref(csbi))
 
-        scrRect = result.srWindow
-        adjPos = (x + scrRect.Left, y + scrRect.Top)
-        cursorCoord = COORD()
+    scrRect = result.srWindow
+    adjPos = (x + scrRect.Left, y + scrRect.Top)
+    cursorCoord = w32.COORD(adjPos)
 
-        w32.SetConsoleCursorPosition(stdHandle, cursorCoord)
+    w32.SetConsoleCursorPosition(stdHandle, cursorCoord)
 
 
 def _get_clear_color():
