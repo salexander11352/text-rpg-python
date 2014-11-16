@@ -3,44 +3,42 @@ import sys
 import struct
 import fcntl
 import termios
-from array import array
-import select
 import tty
-import re
 
-_BLACK   = '0'
-_RED     = '1'
-_GREEN   = '2'
-_YELLOW  = '3'
-_BLUE    = '4'
+_BLACK = '0'
+_RED = '1'
+_GREEN = '2'
+_YELLOW = '3'
+_BLUE = '4'
 _MAGENTA = '5'
-_CYAN    = '6'
-_GRAY    = '7'
+_CYAN = '6'
+_GRAY = '7'
 
-_DARK_FG  = '3'
-_DARK_BG  = '4'
+_DARK_FG = '3'
+_DARK_BG = '4'
 _LIGHT_FG = '9'
 _LIGHT_BG = '10'
 
-none        = None
-darkred     = _DARK_FG + _RED
-darkgreen   = _DARK_FG + _GREEN
-darkyellow  = _DARK_FG + _YELLOW
-darkblue    = _DARK_FG + _BLUE
+none = None
+darkred = _DARK_FG + _RED
+darkgreen = _DARK_FG + _GREEN
+darkyellow = _DARK_FG + _YELLOW
+darkblue = _DARK_FG + _BLUE
 darkmagenta = _DARK_FG + _MAGENTA
-darkcyan    = _DARK_FG + _CYAN
-grey        = _DARK_FG + _GRAY
+darkcyan = _DARK_FG + _CYAN
+grey = _DARK_FG + _GRAY
 
-black       = _DARK_FG + _BLACK
-darkgrey    = _LIGHT_FG + _BLACK
+black = _DARK_FG + _BLACK
+darkgrey = _LIGHT_FG + _BLACK
 
-red     = _LIGHT_FG + _RED
-green   = _LIGHT_FG + _GREEN
-yellow  = _LIGHT_FG + _YELLOW
-blue    = _LIGHT_FG + _BLUE
+red = _LIGHT_FG + _RED
+green = _LIGHT_FG + _GREEN
+yellow = _LIGHT_FG + _YELLOW
+blue = _LIGHT_FG + _BLUE
 magenta = _LIGHT_FG + _MAGENTA
-cyan    = _LIGHT_FG + _CYAN
-white   = _LIGHT_FG + _GRAY
+cyan = _LIGHT_FG + _CYAN
+white = _LIGHT_FG + _GRAY
+
 
 def _get_console_size():
     '''Get the console size on platforms that support the posix standard'''
@@ -49,6 +47,7 @@ def _get_console_size():
     height, width, pw, ph = struct.unpack('HHHH', result)
 
     return (width, height)
+
 
 def _set_text_color(text, background):
     colors = ''
@@ -66,10 +65,13 @@ DOWN = '\x1b[B'
 RIGHT = '\x1b[C'
 LEFT = '\x1b[D'
 
+
 def _clear_backscroll():
     sys.stdout.write('\033c')
 
 charArr = []
+
+
 def _input_char(block=True, lower=False):
     global charArr
 
@@ -95,8 +97,8 @@ def _input_char(block=True, lower=False):
     termios.tcsetattr(sys.stdin, attr, prevSettings)
 
     charlan = len(charArr)
-    #print charlan
-    if charlan > 1 :
+    # print charlan
+    if charlan > 1:
         if charArr[0] == '\x1b' and charArr[1] == '[':
             char = '%s%s%s' % (charArr.pop(0), charArr.pop(0), charArr.pop(0))
 
@@ -111,8 +113,9 @@ def _input_char(block=True, lower=False):
     if lower:
         char = char.lower()
 
-	#print '%r' % strAc
+        # print '%r' % strAc
     return char
+
 
 def _get_cursor_pos():
     os.write(sys.stdin.fileno(), "\x1b[6n")
@@ -121,14 +124,17 @@ def _get_cursor_pos():
     righ = value.rindex('R')
     left = value.rindex('[')
 
-    valueSplit = value[left+1:righ].split(';')
+    valueSplit = value[left + 1:righ].split(';')
     return valueSplit[1], valueSplit[0]
 
+
 def _set_cursor_pos(x, y):
-    sys.stdout.write('\x1b[%s;%sH' % (y+1, x+1))
+    sys.stdout.write('\x1b[%s;%sH' % (y + 1, x + 1))
+
 
 def _clear_screen():
     os.system('clear')
+
 
 def _clear_color():
     sys.stdout.write('\x1b[0m')

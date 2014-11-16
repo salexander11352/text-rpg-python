@@ -17,24 +17,25 @@ _GREEN = 0x0002
 _RED = 0x0004
 _INTENSITY = 0x0008
 
-darkblue    = _BLUE
-darkgreen   = _GREEN
-darkcyan    = _GREEN | _BLUE
-darkred     = _RED
+darkblue = _BLUE
+darkgreen = _GREEN
+darkcyan = _GREEN | _BLUE
+darkred = _RED
 darkmagenta = _RED | _BLUE
-darkyellow  = _RED | _GREEN
-grey        = _RED | _GREEN | _BLUE
+darkyellow = _RED | _GREEN
+grey = _RED | _GREEN | _BLUE
 
-black       = 0
-darkgrey    = _INTENSITY
+black = 0
+darkgrey = _INTENSITY
 
-blue        = _INTENSITY | _BLUE
-green       = _INTENSITY | _GREEN
-cyan        = _INTENSITY | _GREEN | _BLUE
-red         = _INTENSITY | _RED
-magenta     = _INTENSITY | _RED | _BLUE
-yellow      = _INTENSITY | _RED | _GREEN
-white       = _INTENSITY | _RED | _GREEN | _BLUE
+blue = _INTENSITY | _BLUE
+green = _INTENSITY | _GREEN
+cyan = _INTENSITY | _GREEN | _BLUE
+red = _INTENSITY | _RED
+magenta = _INTENSITY | _RED | _BLUE
+yellow = _INTENSITY | _RED | _GREEN
+white = _INTENSITY | _RED | _GREEN | _BLUE
+
 
 def _get_console_size():
     '''Get the console size on windows using the Windows API'''
@@ -57,12 +58,14 @@ def _get_console_size():
 
     return (width, height)
 
+
 def _input_char(num, block=True):
     val = ''
     for i in range(num):
         if block or msvcrt.kbhit():
             val += msvcrt.getch()
     return val
+
 
 def _get_cursor_pos():
     stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
@@ -73,16 +76,18 @@ def _get_cursor_pos():
 
     return cursorPos
 
+
 def _set_cursor_pos(x, y):
     stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
     csbi = w32.CONSOLE_SCREEN_BUFFER_INFOEX()
     result = w32.GetConsoleScreenBufferInfoEx(stdHandle, ct.byref(csbi))
 
-	scrRect = result.srWindow
-	adjPos = (x + scrRect.Left, y + scrRect.Top)
-	cursorCoord = COORD()
+        scrRect = result.srWindow
+        adjPos = (x + scrRect.Left, y + scrRect.Top)
+        cursorCoord = COORD()
 
-	w32.SetConsoleCursorPosition(stdHandle, cursorCoord)
+        w32.SetConsoleCursorPosition(stdHandle, cursorCoord)
+
 
 def _get_clear_color():
     cursorPos = _get_cursor_pos()
@@ -99,11 +104,13 @@ def _get_clear_color():
     a = w32.DWORD(0)
 
     stdHand = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
-    w32.ReadConsoleOutputAttribute(stdHand, attrPtr, chars, rCoord, ct.byref(a))
+    w32.ReadConsoleOutputAttribute(
+        stdHand, attrPtr, chars, rCoord, ct.byref(a))
 
     return attr[0]
 
 _clearColor = _get_clear_color()
+
 
 def _set_text_color(text, background):
     bgColor = background << 4
@@ -111,8 +118,10 @@ def _set_text_color(text, background):
     m_hcon = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
     w32.SetConsoleTextAttribute(m_hcon, color)
 
+
 def _clear_screen():
     os.system('cls')
+
 
 def _clear_color():
     m_hcon = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)

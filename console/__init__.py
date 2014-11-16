@@ -1,5 +1,4 @@
 import platform
-import sys
 
 osName = platform.system()
 
@@ -11,40 +10,49 @@ if osName == 'Windows':  # Windows works in both powershell and Command Prompt
     from console.backends.windows import black, grey, blue, green, cyan, red
     from console.backends.windows import magenta, yellow, white
 
-elif osName in ('Linux', 'Darwin'): # Posix supporting operating systems
+elif osName in ('Linux', 'Darwin'):  # Posix supporting operating systems
     import console.backends.posix as impl
     from console.backends.posix import darkblue, darkgreen, darkcyan, darkred
     from console.backends.posix import darkmagenta, darkyellow, darkgrey
     from console.backends.posix import black, grey, blue, green, cyan, red
     from console.backends.posix import magenta, yellow, white, none
-# Generic implementation 
+
+# Generic implementation
 else:
     raise EnvironmentError("OS Not supported.")
+
 
 # Wrappers over platform implementations
 def get_console_size():
     '''Get current console size'''
-    # TODO - Check for python 3 and use native STL function for getting size 
+    # TODO - Check for python 3 and use native STL function for getting size
     return impl._get_console_size()
+
 
 def set_text_color(text, background):
     impl._set_text_color(text, background)
+
 
 def clear_screen():
     print ('')
     impl._clear_screen()
 
+
 def clear_color():
     impl._clear_color()
+
 
 def get_cursor_pos():
     return impl._get_cursor_pos()
 
+
 def set_cursor_pos(x, y):
-	impl._set_cursor_pos(x, y)
+    impl._set_cursor_pos(x, y)
+
 
 def input_char(block=True, lower=False):
     return impl._input_char(block, lower)
+
 
 # Helper functions
 def center_text(text, padding=' '):
@@ -58,20 +66,21 @@ def center_text(text, padding=' '):
         else:
             leftPadding = int(totalPadding / 2) - 1
             rightPadding = leftPadding + 1
-        lp = padding*leftPadding
-        rp = padding*rightPadding
+        lp = padding * leftPadding
+        rp = padding * rightPadding
         centeredLines.append(lp + ' ' + line + ' ' + rp)
 
     return '\n'.join(centeredLines)
 
+
 def fill_line(char=" "):
     '''Fill a full line with char. Defaults to spaces.'''
     maxWidth, maxHeight = get_console_size()
-    return char*maxWidth
+    return char * maxWidth
+
 
 def make_heading(text):
     '''Print a heading to the screen.'''
     print (fill_line(char='#'))
     print (center_text(text))
     print (fill_line(char='#'))
-

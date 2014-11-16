@@ -2,9 +2,10 @@ import platform
 import ctypes as ct
 from ctypes.util import find_library
 
+
 def bind_function(libName, name, returnType, params):
     '''Helper function that allows usage of C functions in dynamic libraries'''
-    
+
     osName = platform.system()
 
     if osName == "Windows":

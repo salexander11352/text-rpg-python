@@ -26,20 +26,24 @@ LPDWORD = ct.POINTER(DWORD)
 
 LPCOLORREF = ct.POINTER(COLORREF)
 
+
 # Reimplementation of macros
 def RGB(r, g, b):
-    return r | g << 8 | b << 16 
+    return r | g << 8 | b << 16
+
 
 # Windows API structures
 class COORD(ct.Structure):
     _fields_ = [('X', SHORT),
                 ('Y', SHORT)]
 
+
 class SMALL_RECT(ct.Structure):
-  _fields_ = [('Left', SHORT),
-              ('Top', SHORT),
-              ('Right', SHORT),
-              ('Bottom', SHORT)]
+    _fields_ = [('Left', SHORT),
+                ('Top', SHORT),
+                ('Right', SHORT),
+                ('Bottom', SHORT)]
+
 
 class CONSOLE_SCREEN_BUFFER_INFO(ct.Structure):
     _fields_ = [('dwSize', COORD),
@@ -47,6 +51,7 @@ class CONSOLE_SCREEN_BUFFER_INFO(ct.Structure):
                 ('wAttributes', WORD),
                 ('srWindow', SMALL_RECT)]
 PCONSOLE_SCREEN_BUFFER_INFO = ct.POINTER(CONSOLE_SCREEN_BUFFER_INFO)
+
 
 class CONSOLE_SCREEN_BUFFER_INFOEX(ct.Structure):
     _fields_ = [('cbSize', ULONG),
@@ -60,9 +65,10 @@ class CONSOLE_SCREEN_BUFFER_INFOEX(ct.Structure):
                 ('ColorTable', COLORREF * 16)]
 PCONSOLE_SCREEN_BUFFER_INFOEX = ct.POINTER(CONSOLE_SCREEN_BUFFER_INFOEX)
 
+
 class CONSOLE_CURSOR_INFO(ct.Structure):
     _fields_ = [('dwSize', DWORD),
-                 ('bVisible', BOOL)]
+                ('bVisible', BOOL)]
 PCONSOLE_CURSOR_INFO = ct.POINTER(CONSOLE_CURSOR_INFO)
 
 # Enum Values
@@ -86,53 +92,53 @@ COMMON_LVB_GRID_RVERTICAL = 0x1000
 COMMON_LVB_REVERSE_VIDEO = 0x4000
 COMMON_LVB_UNDERSCORE = 0x8000
 
-GetStdHandle = bind_function(kernel32, 'GetStdHandle', HANDLE, (DWORD,) )
+GetStdHandle = bind_function(kernel32, 'GetStdHandle', HANDLE, (DWORD,))
 
 GetConsoleScreenBufferInfo = bind_function(
-        kernel32, 
-        'GetConsoleScreenBufferInfo',
-        BOOL,
-        (HANDLE, PCONSOLE_SCREEN_BUFFER_INFO, ))
+    kernel32,
+    'GetConsoleScreenBufferInfo',
+    BOOL,
+    (HANDLE, PCONSOLE_SCREEN_BUFFER_INFO, ))
 
 GetConsoleScreenBufferInfoEx = bind_function(
-        kernel32,
-        'GetConsoleScreenBufferInfoEx',
-        BOOL,
-        (HANDLE, PCONSOLE_SCREEN_BUFFER_INFOEX))
+    kernel32,
+    'GetConsoleScreenBufferInfoEx',
+    BOOL,
+    (HANDLE, PCONSOLE_SCREEN_BUFFER_INFOEX))
 
 SetConsoleScreenBufferInfoEx = bind_function(
-        kernel32,
-        'SetConsoleScreenBufferInfoEx',
-        BOOL,
-        (HANDLE, PCONSOLE_SCREEN_BUFFER_INFOEX))
+    kernel32,
+    'SetConsoleScreenBufferInfoEx',
+    BOOL,
+    (HANDLE, PCONSOLE_SCREEN_BUFFER_INFOEX))
 
 SetConsoleTextAttribute = bind_function(
-        kernel32,
-        'SetConsoleTextAttribute',
-        BOOL,
-        (HANDLE, WORD))
+    kernel32,
+    'SetConsoleTextAttribute',
+    BOOL,
+    (HANDLE, WORD))
 
 GetConsoleCursorInfo = bind_function(
-        kernel32,
-        'GetConsoleCursorInfo',
-        BOOL,
-        (HANDLE, PCONSOLE_CURSOR_INFO))
+    kernel32,
+    'GetConsoleCursorInfo',
+    BOOL,
+    (HANDLE, PCONSOLE_CURSOR_INFO))
 
 SetConsoleCursorPosition = bind_function(
-        kernel32,
-        'SetConsoleCursorPosition',
-        BOOL,
-        (HANDLE, COORD))
+    kernel32,
+    'SetConsoleCursorPosition',
+    BOOL,
+    (HANDLE, COORD))
 
 ReadConsoleOutputAttribute = bind_function(
-        kernel32,
-        'ReadConsoleOutputAttribute',
-        BOOL,
-        (HANDLE, LPWORD, DWORD, COORD, LPDWORD)
-        )
+    kernel32,
+    'ReadConsoleOutputAttribute',
+    BOOL,
+    (HANDLE, LPWORD, DWORD, COORD, LPDWORD)
+)
 
 SetConsoleCursorPosition = bind_function(
-        kernel32,
-        'SetConsoleCursorPosition',
-        BOOL,
-        (HANDLE, COORD))
+    kernel32,
+    'SetConsoleCursorPosition',
+    BOOL,
+    (HANDLE, COORD))
