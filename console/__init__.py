@@ -29,6 +29,11 @@ def get_console_size():
     return impl._get_console_size()
 
 
+def set_console_size(x, y):
+    '''Set console size'''
+    impl._set_console_size(x, y)
+
+
 def set_text_color(text, background):
     impl._set_text_color(text, background)
 
@@ -40,6 +45,10 @@ def clear_screen():
 
 def clear_color():
     impl._clear_color()
+
+
+def clear_size():
+    impl._clear_size()
 
 
 def get_cursor_pos():

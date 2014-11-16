@@ -40,13 +40,25 @@ cyan = _LIGHT_FG + _CYAN
 white = _LIGHT_FG + _GRAY
 
 
+ESCAPE = '\x1b'
+UP = '\x1b[A'
+DOWN = '\x1b[B'
+RIGHT = '\x1b[C'
+LEFT = '\x1b[D'
+
+
 def _get_console_size():
-    '''Get the console size on platforms that support the posix standard'''
+    '''Get the console size on *nix platforms.'''
     winsize = struct.pack('HHHH', 0, 0, 0, 0)
     result = fcntl.ioctl(sys.stdout.fileno(), termios.TIOCGWINSZ, winsize)
     height, width, pw, ph = struct.unpack('HHHH', result)
 
     return (width, height)
+
+
+def _set_console_size(x, y):
+    '''Set the console size on *nix platforms.'''
+    sys.stdout.write('\x1b[8;%s;%st' % (y, x))
 
 
 def _set_text_color(text, background):
@@ -58,12 +70,6 @@ def _set_text_color(text, background):
             colors += ';'
         colors += str(int(background) + 10)
     sys.stdout.write('\x1b[0;%sm' % colors)
-
-ESCAPE = '\x1b'
-UP = '\x1b[A'
-DOWN = '\x1b[B'
-RIGHT = '\x1b[C'
-LEFT = '\x1b[D'
 
 
 def _clear_backscroll():
@@ -138,3 +144,11 @@ def _clear_screen():
 
 def _clear_color():
     sys.stdout.write('\x1b[0m')
+
+
+def _clear_size():
+    _set_console_size(*_size)
+
+
+# get default size
+_size = _get_console_size()

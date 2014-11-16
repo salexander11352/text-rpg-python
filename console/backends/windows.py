@@ -59,6 +59,40 @@ def _get_console_size():
     return (width, height)
 
 
+def _get_default_size():
+    '''
+    Get the size of the window before we tinker with it.
+    Mainly to restore it later.
+    '''
+    stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
+    csbiex = w32.CONSOLE_SCREEN_BUFFER_INFOEX()
+    w32.GetConsoleScreenBufferInfoEx(stdHandle, ct.byref(csbiex))
+    return csbiex
+
+
+def _set_console_size(x, y):
+    stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
+    conInfo = w32.CONSOLE_SCREEN_BUFFER_INFOEX()
+    conInfo.cbSize = ct.sizeof(conInfo)
+
+    w32.GetConsoleScreenBufferInfoEx(stdHandle, ct.byref(conInfo))
+
+    # Change the console size
+    conInfo.dwSize.X = x
+    conInfo.dwSize.Y = y
+    conInfo.dwMaximumWindowSize.X = x
+    conInfo.dwMaximumWindowSize.Y = y
+
+    # This is needed for some odd reason or on repeated calls to this function 
+    # the window shrinks in size.
+    conInfo.srWindow.Bottom += 1
+    conInfo.srWindow.Right += 1
+    w32.SetConsoleScreenBufferInfoEx(stdHandle, ct.byref(conInfo))
+
+def _clear_size():
+    stdHandle = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
+    w32.SetConsoleScreenBufferInfoEx(stdHandle, ct.byref(_defaultSize))
+
 def _input_char(num, block=True):
     val = ''
     for i in range(num):
@@ -109,8 +143,6 @@ def _get_clear_color():
 
     return attr[0]
 
-_clearColor = _get_clear_color()
-
 
 def _set_text_color(text, background):
     bgColor = background << 4
@@ -126,3 +158,8 @@ def _clear_screen():
 def _clear_color():
     m_hcon = w32.GetStdHandle(w32.STD_OUTPUT_HANDLE)
     w32.SetConsoleTextAttribute(m_hcon, _clearColor)
+
+
+# Get defaults for various values that we need to restore later
+_clearColor = _get_clear_color()
+_defaultSize = _get_default_size()
