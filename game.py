@@ -452,8 +452,6 @@ def pause(msg = "Press Enter to Continue... "):
 
 if __name__ == "__main__":
     startGame()
-    drawMap()
-    pause()
     con.clear_color()
     con.clear_screen()
 
