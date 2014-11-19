@@ -26,8 +26,9 @@ WPN_STAT_MOD = 800.0
 
 ############################
 ######### Globals ##########
+dirMap = {'w':[0,-1],'s':[0,1],'a':[-1,0],'d':[1,0]}
 prompt = ">>> "
-debug = False
+debug  = False
 # player (defined in startGame())
 
 ############################
@@ -411,8 +412,26 @@ def drawMap():
 
 ############################
 ####### Player Phase #######
-def movement():
+def moveChar():
     char = con.input_char(1) # TODO: this function's args have changed in master branch. Fix.
+    pos = player.pos
+
+    try:
+        newPos = [pos[i]+dirMap[char][i] for i in xrange(len(pos))]
+        if not is_collision(newPos, obsticles):
+            pos = newPos
+    except KeyError:
+        pass
+
+    player.pos = pos
+
+def is_collision(pos, items):
+    posX = pos[0]
+    posY = pos[1]
+    if terMap[posY][posX] in items:
+        return True
+    else:
+        return False
 
 ############################
 ####### Enemy Phase ########
