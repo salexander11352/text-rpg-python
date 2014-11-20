@@ -413,7 +413,7 @@ def drawMap():
 ############################
 ####### Player Phase #######
 def moveChar():
-    char = con.input_char(1) # TODO: this function's args have changed in master branch. Fix.
+    char = con.input_char(lower=True) # TODO: this function's args have changed in master branch. Fix.
     pos = player.pos
 
     try:
